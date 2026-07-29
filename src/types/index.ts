@@ -16,6 +16,7 @@ export interface Gallery {
 export interface SiteConfig {
   name: string;
   tagline: string;
+  footerTagline: string;
   email: string;
   location: string;
   social: {

@@ -1,27 +1,197 @@
 @import "tailwindcss";
 
-@theme {
-  /* Warm, elegant palette suited to wedding photography */
-  --color-cream: #faf8f5;
-  --color-ivory: #f5f0eb;
-  --color-blush: #e8d5d0;
-  --color-sage: #9aab8e;
-  --color-charcoal: #2c2c2c;
-  --color-warm-gray: #6b6560;
 
-  --font-serif: "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Montserrat", system-ui, sans-serif;
+
+@theme {
+
+  /* Lauren Nichols Photography — Option 1 stylescape palette */
+
+  --color-cream: #fbf6f2;
+
+  --color-blue-light: #acbdcd;
+
+  --color-slate: #42586e;
+
+  --color-terracotta: #5d3722;
+
+  --color-white: #ffffff;
+
+  --color-body: #494d51;
+
+
+
+  --font-script: "santelia-script", cursive;
+
+  --font-serif: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, sans-serif;
+
+  --font-sans: "Courier New", Courier, monospace;
+
 }
+
+
 
 body {
+
   background-color: var(--color-cream);
-  color: var(--color-charcoal);
+
+  color: var(--color-body);
+
   font-family: var(--font-sans);
+
 }
 
+
+
 h1,
+
 h2,
+
 h3,
+
 h4 {
+
   font-family: var(--font-serif);
+
+  font-weight: 700;
+
+  color: var(--color-slate);
+
 }
+
+.font-serif {
+
+  font-weight: 700;
+
+}
+
+a:not([class*="font-script"]):not([class*="font-sans"]),
+button:not([class*="font-sans"]) {
+
+  font-family: var(--font-serif);
+
+  font-weight: 700;
+
+}
+
+
+
+@keyframes marquee {
+
+  from {
+
+    transform: translateX(0);
+
+  }
+
+  to {
+
+    transform: translateX(-50%);
+
+  }
+
+}
+
+
+
+@utility animate-marquee {
+
+  animation: marquee 40s linear infinite;
+
+}
+
+
+
+.scrollbar-hide {
+
+  -ms-overflow-style: none;
+
+  scrollbar-width: none;
+
+}
+
+
+
+.scrollbar-hide::-webkit-scrollbar {
+
+  display: none;
+
+}
+
+
+
+.gallery-scroll {
+
+  scrollbar-width: thin;
+
+  scrollbar-color: var(--color-blue-light) transparent;
+
+}
+
+
+
+.gallery-scroll::-webkit-scrollbar {
+
+  height: 6px;
+
+}
+
+
+
+.gallery-scroll::-webkit-scrollbar-track {
+
+  background: transparent;
+
+}
+
+
+
+.gallery-scroll::-webkit-scrollbar-thumb {
+
+  background-color: var(--color-blue-light);
+
+  border-radius: 9999px;
+
+}
+
+
+
+.gallery-scroll::-webkit-scrollbar-thumb:hover {
+
+  background-color: var(--color-slate);
+
+}
+
+
+
+.gallery-scroll-themed {
+
+  scrollbar-color: var(--gallery-scrollbar, var(--color-blue-light)) transparent;
+
+}
+
+
+
+.gallery-scroll-themed::-webkit-scrollbar-thumb {
+
+  background-color: var(--gallery-scrollbar, var(--color-blue-light));
+
+  transition: background-color 0.7s ease;
+
+}
+
+
+
+.gallery-scroll-themed::-webkit-scrollbar-thumb:hover {
+
+  background-color: color-mix(in srgb, var(--gallery-scrollbar, var(--color-slate)) 80%, black);
+
+}
+
+
+
+.gallery-scroll img {
+
+  -webkit-user-drag: none;
+
+}
+

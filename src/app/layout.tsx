@@ -1,28 +1,15 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Montserrat } from "next/font/google";
-import { Header } from "@/components/layout/Header";
+import { ConditionalHeader } from "@/components/layout/ConditionalHeader";
 import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
 
-const serif = Cormorant_Garamond({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
-});
-
-const sans = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: {
-    default: "Lauren's Photography | Wedding Photographer",
-    template: "%s | Lauren's Photography",
+    default: "Lauren Nichols Photography | Wedding & Portrait Photographer",
+    template: "%s | Lauren Nichols Photography",
   },
   description:
-    "Timeless wedding photography capturing your love story with elegance and artistry.",
+    "Candid, cinematic wedding and portrait photography rooted in authenticity and connection.",
 };
 
 export default function RootLayout({
@@ -31,9 +18,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable}`}>
+    <html lang="en">
+      <head>
+        <link rel="stylesheet" href="https://use.typekit.net/qpp5rrv.css" />
+      </head>
       <body className="min-h-screen flex flex-col antialiased">
-        <Header />
+        <ConditionalHeader />
         <main className="flex-1">{children}</main>
         <Footer />
       </body>

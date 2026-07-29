@@ -1,27 +1,35 @@
+import Link from "next/link";
+
+import { footerNavLinks } from "@/lib/nav-links";
+import { sectionPadding } from "@/lib/section-padding";
+import { siteConfig } from "@/lib/site-config";
+
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-blush/30 bg-ivory px-6 py-10">
-      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 text-center text-sm text-warm-gray md:flex-row md:justify-between">
-        <p>&copy; {year} Lauren&apos;s Photography. All rights reserved.</p>
-        <div className="flex gap-6">
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition hover:text-charcoal"
-          >
-            Instagram
-          </a>
-          <a
-            href="https://pinterest.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="transition hover:text-charcoal"
-          >
-            Pinterest
-          </a>
+    <footer className={`border-t border-blue-light/30 bg-cream ${sectionPadding}`}>
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-8 text-center">
+        <nav aria-label="Footer">
+          <ul className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+            {footerNavLinks.map(({ href, label }) => (
+              <li key={label}>
+                <Link
+                  href={href}
+                  className="font-sans text-sm uppercase tracking-[0.05em] text-body transition hover:text-slate"
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="flex flex-col gap-3 text-sm text-body">
+          <p>
+            &copy; {year} {siteConfig.name} Photography
+          </p>
+          <p>{siteConfig.footerTagline}</p>
         </div>
       </div>
     </footer>
