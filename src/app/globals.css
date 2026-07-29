@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  /* Warm, elegant palette suited to wedding photography */
+  --color-cream: #faf8f5;
+  --color-ivory: #f5f0eb;
+  --color-blush: #e8d5d0;
+  --color-sage: #9aab8e;
+  --color-charcoal: #2c2c2c;
+  --color-warm-gray: #6b6560;
+
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Montserrat", system-ui, sans-serif;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif);
+}
