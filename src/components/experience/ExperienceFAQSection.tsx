@@ -3,71 +3,112 @@
 import Image from "next/image";
 import { useState } from "react";
 
+import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { experienceFAQ } from "@/lib/experience-faq";
-import { sectionPaddingX } from "@/lib/section-padding";
+import { sectionPadding, sectionPaddingX } from "@/lib/section-padding";
+
+function ChevronIcon({ isOpen }: { isOpen: boolean }) {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 16 16"
+      className={`size-3.5 text-slate transition-transform duration-200 lg:size-4 ${
+        isOpen ? "rotate-180" : ""
+      }`}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M4 6l4 4 4-4" />
+    </svg>
+  );
+}
 
 export function ExperienceFAQSection() {
-  const [activeId, setActiveId] = useState(experienceFAQ[0].id);
+  const [activeId, setActiveId] = useState<string | null>(experienceFAQ[0].id);
+
+  function toggleItem(id: string) {
+    setActiveId((current) => (current === id ? null : id));
+  }
 
   return (
-    <section className="border-t border-slate/10 bg-cream">
-      {experienceFAQ.map((item) => {
-        const isActive = activeId === item.id;
+    <section className={`border-t border-slate/10 bg-cream ${sectionPadding}`}>
+      <div className={`mx-auto max-w-3xl text-center ${sectionPaddingX}`}>
+        <SectionEyebrow className="text-center">Common Questions</SectionEyebrow>
+        <h2 className="mt-3 text-[clamp(2rem,4.5vw,3rem)] leading-tight tracking-[0.02em]">
+          Frequently asked questions.
+        </h2>
+        <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-body">
+          A few things couples often ask before we start planning together.
+        </p>
+      </div>
 
-        return (
-          <div key={item.id} className="border-b border-slate/10">
-            <button
-              type="button"
-              onClick={() => setActiveId(item.id)}
-              className={`flex w-full items-center py-10 text-left transition hover:opacity-80 lg:py-12 ${sectionPaddingX}`}
-              aria-expanded={isActive}
-            >
-              <span className="text-3xl leading-none lg:text-5xl">
-                {item.question}
-              </span>
-            </button>
+      <ul className={`mx-auto mt-12 flex max-w-3xl flex-col gap-4 lg:mt-16 ${sectionPaddingX}`}>
+        {experienceFAQ.map((item) => {
+          const isActive = activeId === item.id;
 
-            {isActive && (
-              <div className={`pb-16 lg:pb-24 ${sectionPaddingX}`}>
-                <div
-                  className={`grid gap-10 ${
-                    item.hasImage
-                      ? "lg:grid-cols-[1fr_minmax(280px,420px)] lg:items-start lg:gap-16"
-                      : "max-w-3xl"
-                  }`}
+          return (
+            <li key={item.id}>
+              <div className="rounded-[2rem] bg-[#e4e8df] px-5 py-4 lg:px-7 lg:py-5">
+                <button
+                  type="button"
+                  onClick={() => toggleItem(item.id)}
+                  className="flex w-full items-center justify-between gap-4 text-left"
+                  aria-expanded={isActive}
                 >
-                  <div>
-                    {item.answerTitle && (
-                      <p className="text-xl text-slate lg:text-2xl">
-                        {item.answerTitle}
-                      </p>
-                    )}
-                    <p
-                      className={`text-base leading-relaxed text-body ${
-                        item.answerTitle ? "mt-6" : ""
-                      }`}
-                    >
-                      {item.answer}
-                    </p>
-                  </div>
+                  <span className="text-base leading-snug text-slate lg:text-lg">
+                    {item.question}
+                  </span>
+                  <span className="flex size-[37px] shrink-0 items-center justify-center rounded-full bg-blue-light">
+                    <ChevronIcon isOpen={isActive} />
+                  </span>
+                </button>
 
-                  {item.hasImage && item.imageSrc && (
-                    <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl lg:max-w-[420px]">
-                      <Image
-                        src={item.imageSrc}
-                        alt={item.imageAlt ?? ""}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 420px"
-                        className="object-cover"
-                      />
+                {isActive && (
+                  <div className="mt-4 rounded-2xl bg-white p-5 lg:p-6">
+                    <div
+                      className={
+                        item.hasImage
+                          ? "grid gap-6 lg:grid-cols-[1fr_minmax(180px,240px)] lg:items-start lg:gap-8"
+                          : undefined
+                      }
+                    >
+                      <div>
+                        {item.answerTitle && (
+                          <p className="text-base text-slate lg:text-lg">
+                            {item.answerTitle}
+                          </p>
+                        )}
+                        <p
+                          className={`text-sm leading-relaxed text-body lg:text-base ${
+                            item.answerTitle ? "mt-4" : ""
+                          }`}
+                        >
+                          {item.answer}
+                        </p>
+                      </div>
+
+                      {item.hasImage && item.imageSrc && (
+                        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl">
+                          <Image
+                            src={item.imageSrc}
+                            alt={item.imageAlt ?? ""}
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 240px"
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        );
-      })}
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 }

@@ -5,13 +5,12 @@ import { ExperienceHeroSection } from "@/components/experience/ExperienceHeroSec
 import { JourneyBeginningSection } from "@/components/experience/JourneyBeginningSection";
 import { MyStyleSection } from "@/components/experience/MyStyleSection";
 import { PhilosophyQuoteSection } from "@/components/experience/PhilosophyQuoteSection";
-import { TravelMapSection } from "@/components/experience/TravelMapSection";
 import { getCtaBackground } from "@/lib/cta-backgrounds";
 
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Learn what it's like to work with Lauren Nichols — from first inquiry to final gallery, plus destination wedding travel availability.",
+    "Learn what it's like to work with Lauren Nichols — from first inquiry to final gallery.",
 };
 
 export default function ExperiencePage() {
@@ -21,7 +20,6 @@ export default function ExperiencePage() {
       <JourneyBeginningSection />
       <PhilosophyQuoteSection />
       <MyStyleSection />
-      <TravelMapSection />
       <ExperienceFAQSection />
       <ContactCTASection backgroundSrc={getCtaBackground("experience")} />
     </div>

@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "optimize:travel-images": "node scripts/optimize-travel-images.mjs",
     "generate:world-map": "node scripts/generate-world-map.mjs"
   },
   "dependencies": {

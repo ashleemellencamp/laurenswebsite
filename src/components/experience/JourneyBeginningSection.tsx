@@ -1,4 +1,5 @@
 import { ExperiencePhoto } from "@/components/experience/ExperiencePhoto";
+import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { experienceJourneyImage } from "@/lib/experience-images";
 import { sectionPaddingX, sectionPaddingY } from "@/lib/section-padding";
 
@@ -11,7 +12,8 @@ export function JourneyBeginningSection() {
         className={`grid items-center gap-12 lg:grid-cols-2 lg:gap-16 ${sectionPaddingX}`}
       >
         <div>
-          <h2 className="text-3xl leading-tight lg:text-4xl">
+          <SectionEyebrow>Working Together</SectionEyebrow>
+          <h2 className="mt-3 text-3xl leading-tight lg:text-4xl">
             Journey Beginning
           </h2>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-body">

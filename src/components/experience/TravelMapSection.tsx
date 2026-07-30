@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { TravelWorldMap } from "@/components/experience/TravelWorldMap";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
+import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import {
   getDestinationById,
   mapPinLocations,
@@ -91,10 +92,7 @@ function MapTooltip({
           ×
         </button>
         <span aria-hidden className={arrowClassName} />
-        <p className="pr-6 font-sans text-[0.65rem] uppercase tracking-[0.1em] text-body">
-          {destination.region}
-        </p>
-        <h3 className="mt-1.5 text-lg leading-tight tracking-[0.02em] lg:text-xl">
+        <h3 className="pr-6 text-lg leading-tight tracking-[0.02em] lg:text-xl">
           {destination.name}
         </h3>
         <p className="mt-3 text-sm leading-relaxed text-body">
@@ -153,9 +151,9 @@ export function TravelMapSection() {
       className={`relative overflow-hidden border-b border-slate/10 bg-cream ${sectionPaddingY}`}
     >
       <div className={`mx-auto max-w-4xl text-center ${sectionPaddingX}`}>
-        <p className="font-sans text-sm uppercase tracking-[0.12em] text-body">
+        <SectionEyebrow className="text-center">
           Let&apos;s go somewhere
-        </p>
+        </SectionEyebrow>
         <h2 className="mt-3 text-[clamp(2.25rem,5vw,3.5rem)] leading-none tracking-[0.02em]">
           Travel Bucket List
         </h2>

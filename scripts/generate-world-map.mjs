@@ -24,10 +24,10 @@ const paths = countries.features
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" aria-label="Map of World">
   <style>
     path {
-      fill: #acbdcd;
-      fill-opacity: 0.38;
-      stroke: #94a8ba;
-      stroke-opacity: 0.45;
+      fill: #556b4a;
+      fill-opacity: 0.22;
+      stroke: #3f5340;
+      stroke-opacity: 0.35;
       stroke-width: 0.35;
     }
   </style>

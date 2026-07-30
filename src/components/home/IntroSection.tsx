@@ -1,9 +1,8 @@
 import { PortfolioCategoryCard } from "@/components/home/PortfolioCategoryCard";
+import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { portfolioHref } from "@/lib/portfolio-categories";
 import { sectionPadding } from "@/lib/section-padding";
-
-const stripeBackground =
-  "repeating-linear-gradient(90deg, #fbf6f2 0px, #fbf6f2 15px, rgba(172,189,205,0.25) 15px, rgba(172,189,205,0.25) 30px)";
+import { stripeBackground } from "@/lib/stripe-background";
 
 const portfolioCategories = [
   {
@@ -47,7 +46,8 @@ export function IntroSection() {
       style={{ backgroundImage: stripeBackground }}
     >
       <div className="mx-auto flex max-w-5xl flex-col items-center text-center">
-        <h2 className="max-w-2xl text-[clamp(2rem,4vw,2.5rem)] leading-tight">
+        <SectionEyebrow className="text-center">The Portfolio</SectionEyebrow>
+        <h2 className="mt-3 max-w-2xl text-[clamp(2rem,4vw,2.5rem)] leading-tight">
           However You Celebrate, I&apos;m In.
         </h2>
 

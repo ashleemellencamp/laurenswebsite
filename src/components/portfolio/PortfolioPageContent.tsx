@@ -5,12 +5,13 @@ import { useCallback, useState } from "react";
 
 import { PortfolioFilterBar } from "@/components/portfolio/PortfolioFilterBar";
 import { PortfolioGallerySection } from "@/components/portfolio/PortfolioGallerySection";
+import { InteriorPageHero } from "@/components/ui/InteriorPageHero";
 import {
   parsePortfolioFilter,
   type PortfolioFilterId,
 } from "@/lib/portfolio-categories";
 import { filterGalleriesByCategory } from "@/lib/portfolio-galleries";
-import { sectionPadding, sectionPaddingX } from "@/lib/section-padding";
+import { sectionPadding } from "@/lib/section-padding";
 
 type PortfolioPageContentProps = {
   initialCategory?: string;
@@ -40,15 +41,17 @@ export function PortfolioPageContent({
 
   return (
     <>
-      <section className={`bg-cream text-center ${sectionPaddingX} pt-12 pb-8 lg:pt-16 lg:pb-10`}>
-        <h1 className="text-4xl leading-tight lg:text-5xl">Portfolio</h1>
-        <div className="mt-6">
+      <InteriorPageHero
+        eyebrow="The Portfolio"
+        headline="Some stories I've been lucky to tell."
+      >
+        <div className="mt-8">
           <PortfolioFilterBar
             activeFilter={activeFilter}
             onFilterChange={handleFilterChange}
           />
         </div>
-      </section>
+      </InteriorPageHero>
 
       <div id="portfolio-galleries" className="bg-cream">
         {visibleGalleries.length > 0 ? (

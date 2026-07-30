@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
+import { AboutScrapbookSections } from "@/components/about/AboutScrapbookSections";
 import { AboutHeroSection } from "@/components/about/AboutHeroSection";
-import { BeyondTheLensSection } from "@/components/about/BeyondTheLensSection";
-import { ThingsThatMoveMeSection } from "@/components/about/ThingsThatMoveMeSection";
-import { TravelBucketListSection } from "@/components/about/TravelBucketListSection";
 import { ContactCTASection } from "@/components/home/ContactCTASection";
+import { TravelMapSection } from "@/components/experience/TravelMapSection";
 import { getCtaBackground } from "@/lib/cta-backgrounds";
 
 export const metadata: Metadata = {
@@ -16,9 +15,8 @@ export default function AboutPage() {
   return (
     <>
       <AboutHeroSection />
-      <BeyondTheLensSection />
-      <ThingsThatMoveMeSection />
-      <TravelBucketListSection />
+      <AboutScrapbookSections />
+      <TravelMapSection />
       <ContactCTASection backgroundSrc={getCtaBackground("about")} />
     </>
   );

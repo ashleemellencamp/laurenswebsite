@@ -1,57 +1,141 @@
 "use client";
 
-import { useState } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 import { investmentPackages } from "@/lib/investment-packages";
-import { sectionPadding } from "@/lib/section-padding";
+import type { PortfolioCategoryId } from "@/lib/portfolio-categories";
+import { getPortfolioCategoryCoverImage } from "@/lib/portfolio-galleries";
+import { sectionPadding, sectionPaddingX } from "@/lib/section-padding";
+
+function ChevronIcon({ isOpen }: { isOpen: boolean }) {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 16 16"
+      className={`size-3.5 text-slate transition-transform duration-200 lg:size-4 ${
+        isOpen ? "rotate-180" : ""
+      }`}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M4 6l4 4 4-4" />
+    </svg>
+  );
+}
 
 export function InvestmentPackagesSection() {
-  const [activeId, setActiveId] = useState(investmentPackages[0].id);
+  const [activeId, setActiveId] = useState<string | null>(investmentPackages[0].id);
+  const [imageId, setImageId] = useState(investmentPackages[0].id);
+  const [accordionHeight, setAccordionHeight] = useState<number | null>(null);
+  const accordionRef = useRef<HTMLDivElement>(null);
+
+  function togglePackage(id: string) {
+    if (activeId === id) {
+      setActiveId(null);
+      return;
+    }
+
+    setActiveId(id);
+    setImageId(id);
+  }
+
+  const activeCoverImage = getPortfolioCategoryCoverImage(
+    imageId as PortfolioCategoryId,
+  );
+
+  const imageColumnWidth = 420;
+  const imageSizes =
+    accordionHeight != null
+      ? `(max-width: 1024px) 100vw, ${Math.max(
+          imageColumnWidth,
+          Math.ceil(accordionHeight * (2 / 3)),
+        )}px`
+      : `(max-width: 1024px) 100vw, ${imageColumnWidth}px`;
+
+  useEffect(() => {
+    const node = accordionRef.current;
+    if (!node) return;
+
+    function syncImageHeight() {
+      const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+      setAccordionHeight(isDesktop ? node.offsetHeight : null);
+    }
+
+    syncImageHeight();
+
+    const observer = new ResizeObserver(syncImageHeight);
+    observer.observe(node);
+    window.addEventListener("resize", syncImageHeight);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", syncImageHeight);
+    };
+  }, [activeId]);
 
   return (
-    <section className={`bg-white ${sectionPadding}`}>
-      <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[492px_1fr] lg:items-start lg:gap-16">
+    <section className={`bg-cream ${sectionPadding}`}>
+      <div
+        className={`mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-[minmax(280px,420px)_1fr] lg:items-stretch lg:gap-16 ${sectionPaddingX}`}
+      >
         <div
-          aria-hidden
-          className="aspect-[492/596] w-full rounded-2xl bg-slate/70 lg:sticky lg:top-28"
-        />
+          className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl lg:aspect-auto lg:min-h-0 lg:self-stretch"
+          style={
+            accordionHeight ? { height: `${accordionHeight}px` } : undefined
+          }
+        >
+          <Image
+            key={activeCoverImage.src}
+            src={activeCoverImage.src}
+            alt={activeCoverImage.alt}
+            fill
+            sizes={imageSizes}
+            quality={90}
+            className="object-cover object-center transition-opacity duration-300"
+          />
+        </div>
 
-        <div className="border-t border-slate/10">
-          {investmentPackages.map((pkg) => {
-            const isActive = activeId === pkg.id;
+        <div ref={accordionRef}>
+          <ul className="flex flex-col gap-4">
+            {investmentPackages.map((pkg) => {
+              const isActive = activeId === pkg.id;
 
-            return (
-              <div key={pkg.id} className="border-b border-slate/10">
-                <button
-                  type="button"
-                  onClick={() => setActiveId(pkg.id)}
-                  className="flex w-full items-center justify-between gap-6 py-8 text-left transition hover:opacity-80 lg:py-10"
-                  aria-expanded={isActive}
-                >
-                  <span className="text-2xl leading-none lg:text-4xl">
-                    {pkg.number} {pkg.title}
-                  </span>
-                  <span
-                    aria-hidden
-                    className="shrink-0 text-2xl leading-none text-slate lg:text-4xl"
-                  >
-                    {isActive ? "×" : "+"}
-                  </span>
-                </button>
+              return (
+                <li key={pkg.id}>
+                  <div className="rounded-[2rem] bg-[#e4e8df] px-5 py-4 lg:px-7 lg:py-5">
+                    <button
+                      type="button"
+                      onClick={() => togglePackage(pkg.id)}
+                      className="flex w-full items-center justify-between gap-4 text-left"
+                      aria-expanded={isActive}
+                    >
+                      <span className="text-base leading-snug text-slate lg:text-lg">
+                        {pkg.number} {pkg.title}
+                      </span>
+                      <span className="flex size-[37px] shrink-0 items-center justify-center rounded-full bg-blue-light">
+                        <ChevronIcon isOpen={isActive} />
+                      </span>
+                    </button>
 
-                {isActive && (
-                  <div className="pb-10 lg:pb-12">
-                    <p className="max-w-xl text-base leading-relaxed text-body">
-                      {pkg.description}
-                    </p>
-                    <p className="mt-8 text-sm font-semibold uppercase tracking-[0.7px] text-slate">
-                      Prices begin at {pkg.priceFrom}
-                    </p>
+                    {isActive && (
+                      <div className="mt-4 rounded-2xl bg-white p-5 lg:p-6">
+                        <p className="text-sm leading-relaxed text-body lg:text-base">
+                          {pkg.description}
+                        </p>
+                        <p className="mt-6 font-sans text-xs uppercase tracking-[0.12em] text-slate">
+                          Prices begin at {pkg.priceFrom}
+                        </p>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            );
-          })}
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </section>

@@ -31,7 +31,7 @@ export const travelDestinations: TravelDestination[] = [
     name: "U.S. National Parks",
     region: "United States",
     description:
-      "This one's high on my bucket list — granite peaks, open meadows, and vows with a view. Planning a wedding, elopement, or session in the parks? I'd love to be your photographer — reach out and let's make it happen.",
+      "The national parks are high on my bucket list — wide-open spaces, dramatic landscapes, and the kind of light you can't find anywhere else. Planning a wedding, elopement, or session somewhere wild? I'd love to be your photographer — reach out and let's make it happen.",
   },
   {
     id: "nyc",

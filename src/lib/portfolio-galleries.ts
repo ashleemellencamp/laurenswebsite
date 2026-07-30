@@ -477,3 +477,51 @@ export function filterGalleriesByCategory(
 
   return portfolioGalleries.filter((gallery) => gallery.category === category);
 }
+
+const categoryCoverOverrides: Partial<
+  Record<PortfolioCategoryId, { src: string; alt: string }>
+> = {
+  elopements: {
+    src: "/images/portfolio/mcminnville-wedding/04.jpg",
+    alt: "Bride and groom in the forest with a long veil flowing in the wind",
+  },
+};
+
+const categoryCoverFallbacks: Record<
+  PortfolioCategoryId,
+  { src: string; alt: string }
+> = {
+  weddings: {
+    src: "/images/home/weddings-card.jpg",
+    alt: "Bride holding a floral bouquet",
+  },
+  elopements: {
+    src: "/images/portfolio/mcminnville-wedding/04.jpg",
+    alt: "Bride and groom in the forest with a long veil flowing in the wind",
+  },
+  engagements: {
+    src: "/images/portfolio/nunelly-lake-session/01.jpg",
+    alt: "Couple sitting together on a wooden dock over a lake",
+  },
+  portraits: {
+    src: "/images/home/portraits-card.jpg",
+    alt: "Close-up portrait of a couple",
+  },
+};
+
+export function getPortfolioCategoryCoverImage(category: PortfolioCategoryId) {
+  if (categoryCoverOverrides[category]) {
+    return categoryCoverOverrides[category];
+  }
+
+  for (const gallery of portfolioGalleries) {
+    if (gallery.category !== category) continue;
+
+    const image = gallery.images.find((item) => item.src);
+    if (image?.src) {
+      return { src: image.src, alt: image.alt ?? gallery.title };
+    }
+  }
+
+  return categoryCoverFallbacks[category];
+}
