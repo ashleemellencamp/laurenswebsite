@@ -4,11 +4,16 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 import { TapedPhotoCard } from "@/components/scrapbook/TapedPhotoCard";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import type { ScrapbookIntroVariant } from "@/lib/scrapbook-intro-content";
 import {
   scrapbookCollageLayouts,
   type ScrapbookDoodleLayout,
 } from "@/lib/scrapbook-collage-layouts";
+import {
+  dampenRotation,
+  parseTailwindRotate,
+} from "@/lib/scrapbook-rotation";
 
 export type ScrapbookCollageVariant = ScrapbookIntroVariant;
 
@@ -40,14 +45,23 @@ const doodleSources = {
 function ScrapbookDoodle({
   doodle,
   style,
+  dampen = false,
 }: {
   doodle: ScrapbookDoodleLayout;
   style?: React.CSSProperties;
+  dampen?: boolean;
 }) {
-  const rotateClass =
-    doodle.type === "location"
-      ? (doodle.rotate ?? "rotate-[14.05deg]")
-      : (doodle.rotate ?? "");
+  const defaultRotate =
+    doodle.type === "location" ? "rotate-[14.05deg]" : "";
+  const rotateClass = dampen ? "" : (doodle.rotate ?? defaultRotate);
+
+  const rotateSource = doodle.rotate ?? defaultRotate;
+  const dampenedStyle =
+    dampen && rotateSource
+      ? {
+          transform: `rotate(${dampenRotation(parseTailwindRotate(rotateSource))})`,
+        }
+      : undefined;
 
   return (
     <div
@@ -59,6 +73,7 @@ function ScrapbookDoodle({
         width: pw(doodle.width),
         height: ph(doodle.height),
         ...style,
+        ...dampenedStyle,
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -88,6 +103,7 @@ export function ScrapbookCollage({
   const { texture, photos, doodles } = layout;
   const [parallax, setParallax] = useState({ x: 0, y: 0 });
   const [motionEnabled, setMotionEnabled] = useState(false);
+  const isNarrow = useMediaQuery("(max-width: 639px)");
 
   useEffect(() => {
     const prefersReduced = window.matchMedia(
@@ -113,9 +129,11 @@ export function ScrapbookCollage({
   }
 
   return (
-    <div className={`relative z-10 overflow-visible pb-2 lg:pb-6 ${className}`}>
+    <div
+      className={`scrapbook-collage-mobile relative z-10 overflow-x-clip pb-2 lg:overflow-visible lg:pb-6 ${className}`}
+    >
       <div
-        className={`relative mx-auto w-full max-w-[700px] origin-center scale-100 lg:mx-0 lg:max-w-none lg:scale-[1.2] ${
+        className={`relative mx-auto w-full max-w-[min(700px,92vw)] origin-center scale-[0.92] sm:scale-100 lg:mx-0 lg:max-w-none lg:scale-[1.2] ${
           align === "right"
             ? "lg:ml-auto lg:origin-[72%_50%]"
             : "lg:origin-[72%_50%]"
@@ -145,6 +163,9 @@ export function ScrapbookCollage({
           const depth = index + 1;
           const parallaxX = motionEnabled ? parallax.x * depth * 14 : 0;
           const parallaxY = motionEnabled ? parallax.y * depth * 10 : 0;
+          const photoRotation = isNarrow
+            ? dampenRotation(parseTailwindRotate(photo.rotate))
+            : undefined;
 
           return (
             <div
@@ -155,7 +176,9 @@ export function ScrapbookCollage({
                 top: py(photo.top),
                 width: pw(photo.width),
                 zIndex: 10 + index * 10,
-                transform: `translate3d(${parallaxX}px, ${parallaxY}px, 0)`,
+                transform: `translate3d(${parallaxX}px, ${parallaxY}px, 0)${
+                  photoRotation ? ` rotate(${photoRotation})` : ""
+                }`,
               }}
             >
               <TapedPhotoCard
@@ -165,7 +188,7 @@ export function ScrapbookCollage({
                 orientation={photo.orientation}
                 interactive={playful}
                 animationDelay={`${index * 0.8}s`}
-                className={`w-full ${photo.rotate}`}
+                className={`w-full ${isNarrow ? "" : photo.rotate}`}
                 tapeClassName={photo.tapeClassName}
                 imageClassName={photo.imageClassName}
                 sizes={photo.sizes}
@@ -178,6 +201,7 @@ export function ScrapbookCollage({
           <ScrapbookDoodle
             key={`${doodle.type}-${index}`}
             doodle={doodle}
+            dampen={isNarrow}
             style={{ zIndex: 30 + index * 10 }}
           />
         ))}

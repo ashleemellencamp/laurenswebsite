@@ -22,7 +22,7 @@ export function ScrollToTopButton() {
       type="button"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Scroll to top"
-      className={`fixed bottom-6 right-6 z-40 flex size-11 items-center justify-center rounded-full border border-blue-light/60 bg-cream/95 font-sans text-xs uppercase tracking-[0.08em] text-slate shadow-sm backdrop-blur-sm transition-[opacity,transform,background-color] duration-300 hover:bg-white lg:bottom-8 lg:right-16 ${
+      className={`fixed z-40 flex size-11 items-center justify-center rounded-full border border-blue-light/60 bg-cream/95 font-sans text-xs uppercase tracking-[0.08em] text-slate shadow-sm backdrop-blur-sm transition-[opacity,transform,background-color] duration-300 hover:bg-white max-sm:bottom-[max(1.5rem,env(safe-area-inset-bottom))] max-sm:right-[max(1.5rem,env(safe-area-inset-right))] lg:bottom-8 lg:right-16 ${
         visible
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-2 opacity-0"

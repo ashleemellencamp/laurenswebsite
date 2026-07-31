@@ -88,7 +88,7 @@ function MapTooltip({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-3 right-3 font-sans text-lg leading-none text-body transition hover:text-slate"
+          className="absolute top-2 right-2 flex size-11 items-center justify-center font-sans text-xl leading-none text-body transition hover:text-slate"
         >
           ×
         </button>
@@ -127,7 +127,7 @@ function MapPin({
       onClick={onSelect}
       aria-label={`View ${pin.label}${destination ? `, ${destination.name}` : ""}`}
       aria-pressed={isActive}
-      className="group absolute z-10 -translate-x-1/2 -translate-y-1/2"
+      className="group absolute z-10 flex size-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center"
       style={{ left: `${pin.mapX}%`, top: `${pin.mapY}%` }}
     >
       <span

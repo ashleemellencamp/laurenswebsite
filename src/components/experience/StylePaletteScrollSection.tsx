@@ -33,8 +33,10 @@ export function StylePaletteScrollSection() {
     containerRef,
     activeIndex,
     isHovered,
+    isTouchDevice,
     useInteractiveSequence,
     hoverHandlers,
+    goToIndex,
   } = useHoverWheelSequence(swatchCount);
 
   if (!useInteractiveSequence) {
@@ -58,7 +60,7 @@ export function StylePaletteScrollSection() {
         ref={containerRef}
         tabIndex={0}
         aria-roledescription="carousel"
-        aria-label="Portfolio color palette. Hover and scroll to explore each swatch."
+        aria-label="Portfolio color palette. Swipe or tap dots to explore each swatch."
         className={`${experienceStyleMediaClassName} outline-none lg:justify-self-end ${
           isHovered ? "cursor-ns-resize" : ""
         }`}
@@ -88,6 +90,8 @@ export function StylePaletteScrollSection() {
           itemCount={swatchCount}
           activeIndex={activeIndex}
           isHovered={isHovered}
+          isTouchDevice={isTouchDevice}
+          onDotSelect={goToIndex}
           scrollHint="Scroll palette to explore"
         />
       </div>

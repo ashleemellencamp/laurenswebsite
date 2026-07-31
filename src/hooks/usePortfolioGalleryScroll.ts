@@ -35,15 +35,20 @@ export function usePortfolioGalleryScroll() {
     const reducedMotionMedia = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
+    const coarsePointerMedia = window.matchMedia(
+      "(hover: none), (pointer: coarse)",
+    );
 
     const syncInteractionMode = () => {
-      const enabled = !reducedMotionMedia.matches;
+      const enabled =
+        !reducedMotionMedia.matches && !coarsePointerMedia.matches;
       canWheelScrollRef.current = enabled;
       setCanWheelScroll(enabled);
     };
 
     syncInteractionMode();
     reducedMotionMedia.addEventListener("change", syncInteractionMode);
+    coarsePointerMedia.addEventListener("change", syncInteractionMode);
 
     const getMaxScroll = () =>
       Math.max(0, container.scrollWidth - container.clientWidth);
@@ -205,6 +210,7 @@ export function usePortfolioGalleryScroll() {
       galleryUnit.removeEventListener("keydown", handleKeyDown);
       resizeObserver.disconnect();
       reducedMotionMedia.removeEventListener("change", syncInteractionMode);
+      coarsePointerMedia.removeEventListener("change", syncInteractionMode);
     };
   }, []);
 

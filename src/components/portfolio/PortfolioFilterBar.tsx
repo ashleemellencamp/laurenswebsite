@@ -21,7 +21,7 @@ export function PortfolioFilterBar({
 }: PortfolioFilterBarProps) {
   return (
     <div
-      className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3"
+      className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 sm:gap-x-6 sm:gap-y-3"
       role="tablist"
       aria-label="Filter portfolio galleries"
     >
@@ -35,8 +35,10 @@ export function PortfolioFilterBar({
             role="tab"
             aria-selected={isActive}
             onClick={() => onFilterChange(id)}
-            className={`font-sans text-sm uppercase tracking-[0.05em] transition hover:text-slate ${
-              isActive ? "text-slate underline underline-offset-4" : "text-body"
+            className={`min-h-11 px-3 font-sans text-sm uppercase tracking-[0.05em] transition hover:text-slate sm:px-4 ${
+              isActive
+                ? "text-slate underline underline-offset-4"
+                : "text-body"
             }`}
           >
             {label}

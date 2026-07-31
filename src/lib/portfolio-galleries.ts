@@ -94,7 +94,7 @@ export const portfolioGalleries: PortfolioGallery[] = [
   },
   {
     id: "mcminnville-wedding",
-    title: "A Wine Country Wedding",
+    title: "Black Brick & Forest Light",
     category: "weddings",
     accentColor: "#2f2f2f",
     description:

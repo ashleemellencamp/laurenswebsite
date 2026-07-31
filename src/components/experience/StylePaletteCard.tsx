@@ -30,8 +30,8 @@ export function StylePaletteCard({ swatch, className = "" }: StylePaletteCardPro
         style={{ backgroundColor: swatch.color, color: textColor }}
       >
         <div className="font-sans uppercase leading-tight tracking-[0.14em]">
-          <p className="text-[0.58rem] sm:text-[0.62rem]">{swatch.name}</p>
-          <p className="mt-1 text-[0.52rem] opacity-95 sm:text-[0.56rem]">
+          <p className="text-[0.65rem] sm:text-[0.62rem]">{swatch.name}</p>
+          <p className="mt-1 text-[0.58rem] opacity-95 sm:text-[0.56rem]">
             {swatch.color.toUpperCase()}
           </p>
         </div>

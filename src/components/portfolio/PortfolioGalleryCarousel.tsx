@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState, type RefObject } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 
 import { hexToRgba } from "@/lib/extract-gallery-accent-color";
 import {
@@ -110,14 +110,43 @@ function GalleryImageFrame({
   onOpen: () => void;
 }) {
   const frameClass = image.aspectClass ?? portraitFrameClass;
+  const pointerStartRef = useRef<{ x: number; y: number } | null>(null);
+  const didMoveRef = useRef(false);
+
+  function handlePointerDown(event: React.PointerEvent<HTMLButtonElement>) {
+    pointerStartRef.current = { x: event.clientX, y: event.clientY };
+    didMoveRef.current = false;
+  }
+
+  function handlePointerMove(event: React.PointerEvent<HTMLButtonElement>) {
+    if (!pointerStartRef.current) return;
+
+    const dx = event.clientX - pointerStartRef.current.x;
+    const dy = event.clientY - pointerStartRef.current.y;
+
+    if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
+      didMoveRef.current = true;
+    }
+  }
+
+  function handleOpen(event: React.MouseEvent<HTMLButtonElement>) {
+    if (didMoveRef.current) {
+      event.preventDefault();
+      return;
+    }
+
+    onOpen();
+  }
 
   return (
     <div className={`relative shrink-0 overflow-hidden rounded-2xl ${frameClass}`}>
       {image.src ? (
         <button
           type="button"
-          onClick={onOpen}
-          className="relative size-full cursor-zoom-in appearance-none border-0 bg-transparent p-0"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onClick={handleOpen}
+          className="absolute inset-0 z-10 cursor-zoom-in appearance-none border-0 bg-transparent p-0 touch-manipulation"
           aria-label={`View larger: ${image.alt ?? galleryTitle}`}
         >
           <Image
