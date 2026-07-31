@@ -8,5 +8,5 @@ export const mainNavLinks = [
 
 export const footerNavLinks = [
   ...mainNavLinks,
-  { href: "#", label: "Client Access", heroLabel: "CLIENT ACCESS" },
+  { href: "/client-access", label: "Client Access", heroLabel: "CLIENT ACCESS" },
 ] as const;

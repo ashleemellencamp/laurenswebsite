@@ -15,16 +15,29 @@ export function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-10 text-center sm:gap-8">
         <nav aria-label="Footer">
           <ul className="flex flex-col items-center gap-1 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-8 sm:gap-y-3">
-            {footerNavLinks.map(({ href, label }) => (
-              <li key={label} className="w-full sm:w-auto">
-                <Link
-                  href={href}
-                  className="inline-flex min-h-11 w-full items-center justify-center px-4 font-sans text-sm uppercase tracking-[0.05em] text-body transition hover:text-slate sm:w-auto sm:px-2"
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
+            {footerNavLinks.map(({ href, label, ...link }) => {
+              const className =
+                "inline-flex min-h-11 w-full items-center justify-center px-4 font-sans text-sm uppercase tracking-[0.05em] text-body transition hover:text-slate sm:w-auto sm:px-2";
+
+              return (
+                <li key={label} className="w-full sm:w-auto">
+                  {"external" in link && link.external ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={className}
+                    >
+                      {label}
+                    </a>
+                  ) : (
+                    <Link href={href} className={className}>
+                      {label}
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </nav>
 

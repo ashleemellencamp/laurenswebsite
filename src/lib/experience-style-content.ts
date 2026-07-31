@@ -14,6 +14,8 @@ type ExperienceStylePhotoBlock = {
   };
 };
 
+export type { ExperienceStylePhotoBlock };
+
 type ExperienceStyleColorBlock = {
   eyebrow: string;
   heading: string;

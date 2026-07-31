@@ -11,7 +11,7 @@ import { heroGradientOverlay } from "@/lib/hero-gradient-overlay";
 
 export function HeroSection() {
   return (
-    <section className="relative h-[100dvh] w-full overflow-hidden lg:min-h-screen lg:h-auto">
+    <section className="relative h-[100dvh] min-h-screen w-full overflow-hidden">
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -56,7 +56,7 @@ export function HeroSection() {
         <MobileNav variant="light" />
       </nav>
 
-      <div className="pointer-events-none relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
+      <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
         <h1 className="!font-script text-[clamp(2.75rem,10vw,6rem)] leading-none !text-white lg:text-[96px]">
           Lauren Nichols
         </h1>

@@ -4,6 +4,7 @@ import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import {
   experienceStyleContent,
   experienceStyleMediaClassName,
+  type ExperienceStylePhotoBlock,
   type ExperienceStylePhotoVariant,
 } from "@/lib/experience-style-content";
 import { sectionPaddingX } from "@/lib/section-padding";
@@ -35,7 +36,7 @@ function StyleIntroText({
 
 function ExperienceStyleBlock({ variant }: { variant: ExperienceStylePhotoVariant }) {
   const { eyebrow, heading, body, photoAlign, image } =
-    experienceStyleContent[variant];
+    experienceStyleContent[variant] as ExperienceStylePhotoBlock;
   const textFirst = photoAlign === "right";
   const photoClassName =
     photoAlign === "right"
