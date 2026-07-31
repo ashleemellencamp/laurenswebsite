@@ -7,19 +7,25 @@ import {
   type ExperienceStylePhotoVariant,
 } from "@/lib/experience-style-content";
 import { sectionPaddingX } from "@/lib/section-padding";
-import { sectionBodyClassName, sectionHeadlineClassName } from "@/lib/typography";
+import {
+  sectionBodyClassName,
+  sectionHeadlineClassName,
+  splitSectionTextColumnClassName,
+} from "@/lib/typography";
 
 function StyleIntroText({
   eyebrow,
   heading,
   body,
+  className = "",
 }: {
   eyebrow: string;
   heading: string;
   body: string;
+  className?: string;
 }) {
   return (
-    <div className="relative z-0 text-center lg:text-left">
+    <div className={`relative z-0 ${splitSectionTextColumnClassName} ${className}`}>
       <SectionEyebrow>{eyebrow}</SectionEyebrow>
       <h2 className={sectionHeadlineClassName}>{heading}</h2>
       <p className={sectionBodyClassName}>{body}</p>
@@ -54,9 +60,14 @@ function ExperienceStyleBlock({ variant }: { variant: ExperienceStylePhotoVarian
             src={image.src}
             alt={image.alt}
             sizes="(max-width: 1024px) 55vw, 384px"
-            className={photoClassName}
+            className={`order-2 lg:order-none ${photoClassName}`}
           />
-          <StyleIntroText eyebrow={eyebrow} heading={heading} body={body} />
+          <StyleIntroText
+            eyebrow={eyebrow}
+            heading={heading}
+            body={body}
+            className="order-1 lg:order-none"
+          />
         </>
       )}
     </div>

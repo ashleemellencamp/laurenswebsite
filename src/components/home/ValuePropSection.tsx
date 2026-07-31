@@ -1,5 +1,8 @@
 import { sectionPadding } from "@/lib/section-padding";
-import { splitSectionHeadlineClassName } from "@/lib/typography";
+import {
+  sectionBodyClassName,
+  splitSectionHeadlineClassName,
+} from "@/lib/typography";
 
 export function ValuePropSection() {
   return (
@@ -79,11 +82,11 @@ export function ValuePropSection() {
 
         <div className="relative z-10 mx-auto flex max-w-[499px] flex-col items-center rounded-2xl bg-white px-8 py-12 text-center shadow-sm lg:absolute lg:left-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:px-12 lg:py-16">
 
-          <h2 className={splitSectionHeadlineClassName}>
-            Images That Feel Like You — Not a Template
+          <h2 className={`${splitSectionHeadlineClassName} lg:text-center`}>
+            Images That Feel Like You, Not a Template
           </h2>
 
-          <p className="mt-6 text-base leading-relaxed text-body">
+          <p className={`${sectionBodyClassName} lg:text-center`}>
 
             I believe the best photographs come from genuine connection. My
 

@@ -3,10 +3,14 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-import { investmentPackages } from "@/lib/investment-packages";
+import {
+  getInvestmentPricingLabel,
+  investmentPackages,
+} from "@/lib/investment-packages";
 import type { PortfolioCategoryId } from "@/lib/portfolio-categories";
 import { getPortfolioCategoryCoverImage } from "@/lib/portfolio-galleries";
 import { sectionPadding, sectionPaddingX } from "@/lib/section-padding";
+import { mobileCenterLgLeftClassName, sectionBodySmallClassName } from "@/lib/typography";
 
 function ChevronIcon({ isOpen }: { isOpen: boolean }) {
   return (
@@ -48,13 +52,14 @@ export function InvestmentPackagesSection() {
   );
 
   const imageColumnWidth = 420;
-  const imageSizes =
+  const desktopImageWidth =
     accordionHeight != null
-      ? `(max-width: 1024px) 100vw, ${Math.max(
-          imageColumnWidth,
-          Math.ceil(accordionHeight * (2 / 3)),
-        )}px`
-      : `(max-width: 1024px) 100vw, ${imageColumnWidth}px`;
+      ? Math.max(
+          imageColumnWidth * 2,
+          Math.ceil((accordionHeight * 3) / 2),
+        )
+      : imageColumnWidth * 2;
+  const imageSizes = `(max-width: 1024px) 100vw, ${desktopImageWidth}px`;
 
   useEffect(() => {
     const node = accordionRef.current;
@@ -95,7 +100,7 @@ export function InvestmentPackagesSection() {
             alt={activeCoverImage.alt}
             fill
             sizes={imageSizes}
-            quality={90}
+            quality={95}
             className="object-cover object-center transition-opacity duration-300"
           />
         </div>
@@ -123,12 +128,25 @@ export function InvestmentPackagesSection() {
                     </button>
 
                     {isActive && (
-                      <div className="mt-4 rounded-2xl bg-white p-5 lg:p-6">
-                        <p className="text-sm leading-relaxed text-body lg:text-base">
+                      <div className={`mt-4 rounded-2xl bg-white p-5 lg:p-6 ${mobileCenterLgLeftClassName}`}>
+                        {pkg.coverageHours ? (
+                          <p
+                            className={`font-sans text-xs uppercase tracking-[0.12em] text-slate ${mobileCenterLgLeftClassName}`}
+                          >
+                            {pkg.coverageHours} of coverage
+                          </p>
+                        ) : null}
+                        <p
+                          className={`${sectionBodySmallClassName} ${
+                            pkg.coverageHours ? "mt-3" : ""
+                          }`}
+                        >
                           {pkg.description}
                         </p>
-                        <p className="mt-6 font-sans text-xs uppercase tracking-[0.12em] text-slate">
-                          Prices begin at {pkg.priceFrom}
+                        <p
+                          className={`mt-6 font-sans text-xs uppercase tracking-[0.12em] text-slate ${mobileCenterLgLeftClassName}`}
+                        >
+                          {getInvestmentPricingLabel(pkg)}
                         </p>
                       </div>
                     )}

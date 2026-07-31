@@ -9,9 +9,10 @@ import {
   getDestinationById,
   mapPinLocations,
   type MapPinLocation,
+  type TravelDestination,
 } from "@/lib/travel-destinations";
 import { sectionPaddingX, sectionPaddingY } from "@/lib/section-padding";
-import { sectionHeadlineLargeClassName } from "@/lib/typography";
+import { sectionBodyCenteredClassName, sectionHeadlineCenteredClassName } from "@/lib/typography";
 
 function getTooltipOffset(mapX: number, mapY: number) {
   if (mapY < 32) {
@@ -43,6 +44,41 @@ function getTooltipOffset(mapX: number, mapY: number) {
     arrowClassName:
       "absolute -bottom-1.5 left-1/2 size-3 -translate-x-1/2 rotate-45 border-b border-r border-slate/15 bg-cream",
   };
+}
+
+function MapTooltipContent({
+  destination,
+  onClose,
+  showArrow = false,
+  arrowClassName = "",
+}: {
+  destination: TravelDestination;
+  onClose: () => void;
+  showArrow?: boolean;
+  arrowClassName?: string;
+}) {
+  return (
+    <>
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label="Close"
+        className="absolute top-2 right-2 flex size-11 items-center justify-center font-sans text-xl leading-none text-body transition hover:text-slate"
+      >
+        ×
+      </button>
+      {showArrow ? <span aria-hidden className={arrowClassName} /> : null}
+      <h3 className="pr-6 text-lg leading-tight tracking-[0.02em] lg:text-xl">
+        {destination.name}
+      </h3>
+      <p className="mt-3 text-sm leading-relaxed text-body">
+        {destination.description}
+      </p>
+      <PrimaryButton href="/contact" className="mt-4">
+        Inquire
+      </PrimaryButton>
+    </>
+  );
 }
 
 function MapTooltip({
@@ -77,31 +113,43 @@ function MapTooltip({
     <div
       role="dialog"
       aria-label={`${destination.name} details`}
-      className={`absolute z-20 transition-opacity duration-200 ${className}`}
+      className={`absolute z-20 hidden transition-opacity duration-200 lg:block ${className}`}
       style={{ left: `${pin.mapX}%`, top: `${pin.mapY}%` }}
     >
       <div
         ref={tooltipRef}
-        className="relative w-[min(17.5rem,72vw)] rounded-sm border border-slate/15 bg-cream px-4 py-4 shadow-md lg:w-72 lg:px-5 lg:py-5"
+        className="relative w-72 rounded-sm border border-slate/15 bg-cream px-5 py-5 shadow-md"
       >
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label="Close"
-          className="absolute top-2 right-2 flex size-11 items-center justify-center font-sans text-xl leading-none text-body transition hover:text-slate"
-        >
-          ×
-        </button>
-        <span aria-hidden className={arrowClassName} />
-        <h3 className="pr-6 text-lg leading-tight tracking-[0.02em] lg:text-xl">
-          {destination.name}
-        </h3>
-        <p className="mt-3 text-sm leading-relaxed text-body">
-          {destination.description}
-        </p>
-        <PrimaryButton href="/contact" className="mt-4">
-          Inquire
-        </PrimaryButton>
+        <MapTooltipContent
+          destination={destination}
+          onClose={onClose}
+          showArrow
+          arrowClassName={arrowClassName}
+        />
+      </div>
+    </div>
+  );
+}
+
+function MobileMapTooltipPanel({
+  pin,
+  onClose,
+}: {
+  pin: MapPinLocation;
+  onClose: () => void;
+}) {
+  const destination = getDestinationById(pin.destinationId);
+
+  if (!destination) return null;
+
+  return (
+    <div className={`mt-4 ${sectionPaddingX} lg:hidden`}>
+      <div
+        role="dialog"
+        aria-label={`${destination.name} details`}
+        className="relative mx-auto max-w-md rounded-sm border border-slate/15 bg-cream px-5 py-4 text-center shadow-md"
+      >
+        <MapTooltipContent destination={destination} onClose={onClose} />
       </div>
     </div>
   );
@@ -162,14 +210,14 @@ export function TravelMapSection() {
 
   return (
     <section
-      className={`relative overflow-hidden border-b border-slate/10 bg-cream ${sectionPaddingY}`}
+      className={`relative overflow-x-clip border-b border-slate/10 bg-cream ${sectionPaddingY}`}
     >
       <div className={`mx-auto max-w-4xl text-center ${sectionPaddingX}`}>
         <SectionEyebrow className="text-center">
           Let&apos;s Go Somewhere
         </SectionEyebrow>
-        <h2 className={sectionHeadlineLargeClassName}>Travel Bucket List</h2>
-        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-body">
+        <h2 className={sectionHeadlineCenteredClassName}>Travel Bucket List</h2>
+        <p className={`mx-auto mt-6 max-w-2xl ${sectionBodyCenteredClassName}`}>
           These are the places I&apos;m dreaming of shooting next. Planning a
           wedding, elopement, or session in one of them? I&apos;d love to be
           your photographer — reach out and let&apos;s make it happen.
@@ -187,7 +235,7 @@ export function TravelMapSection() {
       <div className={`mt-8 w-full lg:mt-10 ${sectionPaddingX}`}>
         <div className="mx-auto w-full max-w-7xl">
           <div
-            className="relative aspect-[1010/666] w-full"
+            className="relative aspect-[1010/666] w-full overflow-visible"
             aria-describedby={hasInteracted ? undefined : "travel-map-hint"}
           >
             <TravelWorldMap />
@@ -206,6 +254,10 @@ export function TravelMapSection() {
           </div>
         </div>
       </div>
+
+      {activePin && (
+        <MobileMapTooltipPanel pin={activePin} onClose={closeTooltip} />
+      )}
     </section>
   );
 }

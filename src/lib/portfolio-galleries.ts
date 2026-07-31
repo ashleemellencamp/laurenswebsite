@@ -147,7 +147,7 @@ export const portfolioGalleries: PortfolioGallery[] = [
   {
     id: "las-vegas-wedding",
     title: "A Neon Wedding",
-    category: "weddings",
+    category: "elopements",
     accentColor: "#a04a3f",
     description:
       "Vows beneath the Lady Luck sign, neon-lit streets, and a late-night pizza stop — a Vegas wedding that traded tradition for something entirely their own.",
@@ -482,8 +482,8 @@ const categoryCoverOverrides: Partial<
   Record<PortfolioCategoryId, { src: string; alt: string }>
 > = {
   elopements: {
-    src: "/images/portfolio/mcminnville-wedding/04.jpg",
-    alt: "Bride and groom in the forest with a long veil flowing in the wind",
+    src: "/images/portfolio/las-vegas-wedding/05.jpg",
+    alt: "Bride and groom posing together with the Vegas neon sign behind them",
   },
 };
 
@@ -496,8 +496,8 @@ const categoryCoverFallbacks: Record<
     alt: "Bride holding a floral bouquet",
   },
   elopements: {
-    src: "/images/portfolio/mcminnville-wedding/04.jpg",
-    alt: "Bride and groom in the forest with a long veil flowing in the wind",
+    src: "/images/portfolio/las-vegas-wedding/05.jpg",
+    alt: "Bride and groom posing together with the Vegas neon sign behind them",
   },
   engagements: {
     src: "/images/portfolio/nunelly-lake-session/01.jpg",

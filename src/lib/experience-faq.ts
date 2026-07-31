@@ -1,13 +1,8 @@
-import { experienceTravelFaqImage } from "@/lib/experience-images";
-
 export type ExperienceFAQItem = {
   id: string;
   question: string;
   answerTitle?: string;
   answer: string;
-  imageSrc?: string;
-  imageAlt?: string;
-  hasImage?: boolean;
 };
 
 export const experienceFAQ: ExperienceFAQItem[] = [
@@ -16,9 +11,6 @@ export const experienceFAQ: ExperienceFAQItem[] = [
     question: "I love your work. Do you travel?",
     answer:
       "Of course! I'm based in Nashville but happily photograph weddings and sessions across the world. Reach out with your location and date, and I'll send over custom travel details.",
-    imageSrc: experienceTravelFaqImage.src,
-    imageAlt: experienceTravelFaqImage.alt,
-    hasImage: true,
   },
   {
     id: "timeline",

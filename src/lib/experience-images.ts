@@ -49,8 +49,3 @@ export const experienceTravelImages = [
     alt: "Couple on a paddle boat in the middle of the lake",
   },
 ] as const;
-
-export const experienceTravelFaqImage = {
-  src: "/images/portfolio/flagstaff-engagement/01.jpg",
-  alt: "Couple laughing together on a mattress in a snowy aspen forest",
-};

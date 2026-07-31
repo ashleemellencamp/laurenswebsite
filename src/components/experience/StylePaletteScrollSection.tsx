@@ -6,7 +6,11 @@ import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { useHoverWheelSequence } from "@/hooks/useHoverWheelSequence";
 import { experienceStyleContent, experienceStyleMediaClassName } from "@/lib/experience-style-content";
 import { stylePaletteSwatches } from "@/lib/style-palette";
-import { sectionBodyClassName, sectionHeadlineClassName } from "@/lib/typography";
+import {
+  sectionBodyClassName,
+  sectionHeadlineClassName,
+  splitSectionTextColumnClassName,
+} from "@/lib/typography";
 
 function StyleIntroText({
   eyebrow,
@@ -18,7 +22,7 @@ function StyleIntroText({
   body: string;
 }) {
   return (
-    <div className="relative z-0 text-center lg:text-left">
+    <div className={`relative z-0 ${splitSectionTextColumnClassName}`}>
       <SectionEyebrow>{eyebrow}</SectionEyebrow>
       <h2 className={sectionHeadlineClassName}>{heading}</h2>
       <p className={sectionBodyClassName}>{body}</p>

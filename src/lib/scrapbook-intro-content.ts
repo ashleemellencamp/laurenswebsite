@@ -14,7 +14,7 @@ export const scrapbookIntroContent: Record<
 > = {
   home: {
     eyebrow: "Meet Lauren",
-    heading: "Hey, I'm Lauren!",
+    heading: "Hey, I'm Lauren",
     body:
       "A wedding photographer specializing in candid, cinematic imagery rooted in authenticity and connection. I approach every wedding with intentionality — paying attention to the subtle moments, the meaningful interactions, and the quiet in-between details. My sessions are lighthearted and fun, with plenty of laughter along the way. I believe your photos should feel like a movie, but one where you are the main characters— real, comfortable, but most importantly, they should feel like you.",
     collageAlign: "left",

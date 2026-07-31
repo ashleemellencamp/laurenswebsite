@@ -4,7 +4,7 @@ export function InvestmentHeroSection() {
   return (
     <InteriorPageHero
       eyebrow="Investment & Pricing"
-      headline="These Are the Photos You'll Keep Forever."
+      headline="Photography that feels like you is worth the investment"
     />
   );
 }

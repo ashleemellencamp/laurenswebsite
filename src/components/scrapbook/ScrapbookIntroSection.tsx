@@ -5,7 +5,11 @@ import {
   type ScrapbookIntroVariant,
 } from "@/lib/scrapbook-intro-content";
 import { sectionPadding } from "@/lib/section-padding";
-import { sectionBodyClassName, sectionHeadlineClassName } from "@/lib/typography";
+import {
+  sectionBodyClassName,
+  sectionHeadlineClassName,
+  splitSectionTextColumnClassName,
+} from "@/lib/typography";
 
 type ScrapbookIntroSectionProps = {
   variant: ScrapbookIntroVariant;
@@ -41,9 +45,14 @@ export function ScrapbookIntroBlock({
           <ScrapbookCollage
             variant={variant}
             align={collageAlign}
-            className={isPairedStart ? "lg:pb-0" : isPairedEnd ? "lg:pb-0" : undefined}
+            className={`order-2 lg:order-none ${isPairedStart ? "lg:pb-0" : isPairedEnd ? "lg:pb-0" : ""}`}
           />
-          <IntroText eyebrow={eyebrow} heading={heading} body={body} />
+          <IntroText
+            eyebrow={eyebrow}
+            heading={heading}
+            body={body}
+            className="order-1 lg:order-none"
+          />
         </>
       )}
     </div>
@@ -66,13 +75,15 @@ function IntroText({
   eyebrow,
   heading,
   body,
+  className = "",
 }: {
   eyebrow: string;
   heading: string;
   body: string;
+  className?: string;
 }) {
   return (
-    <div className="relative z-0 text-center lg:text-left">
+    <div className={`relative z-0 ${splitSectionTextColumnClassName} ${className}`}>
       <SectionEyebrow>{eyebrow}</SectionEyebrow>
       <h2 className={sectionHeadlineClassName}>{heading}</h2>
       <p className={sectionBodyClassName}>{body}</p>

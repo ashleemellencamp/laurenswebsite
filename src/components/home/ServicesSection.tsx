@@ -5,6 +5,7 @@ import { useState } from "react";
 import { TextLink } from "@/components/ui/TextLink";
 import { portfolioHref } from "@/lib/portfolio-categories";
 import { sectionPaddingX } from "@/lib/section-padding";
+import { mobileCenterLgLeftClassName, sectionBodyClassName } from "@/lib/typography";
 
 type Service = {
   id: string;
@@ -86,7 +87,7 @@ export function ServicesSection() {
             <button
               type="button"
               onClick={() => setActiveId(service.id)}
-              className={`flex w-full items-center py-10 text-left transition hover:opacity-80 lg:py-12 ${sectionPaddingX}`}
+              className={`flex w-full items-center justify-center py-10 transition hover:opacity-80 max-lg:text-center lg:justify-start lg:py-12 lg:text-left ${sectionPaddingX}`}
               aria-expanded={isActive}
             >
               <span className="text-3xl leading-none lg:text-5xl">
@@ -96,11 +97,14 @@ export function ServicesSection() {
 
             {isActive && (
               <div className={`pb-16 lg:pb-24 ${sectionPaddingX}`}>
-                <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
-                  <p className="max-w-lg text-base leading-relaxed text-body lg:flex-1">
+                <div className={`flex flex-col gap-6 max-lg:items-center max-lg:text-center lg:flex-row lg:items-start lg:justify-between lg:gap-12 ${mobileCenterLgLeftClassName}`}>
+                  <p className={`max-w-lg lg:flex-1 ${sectionBodyClassName}`}>
                     {service.description}
                   </p>
-                  <TextLink href={service.href} className="shrink-0 self-start lg:self-center">
+                  <TextLink
+                    href={service.href}
+                    className="shrink-0 max-lg:mx-auto lg:mx-0 lg:self-center"
+                  >
                     Learn More
                   </TextLink>
                 </div>

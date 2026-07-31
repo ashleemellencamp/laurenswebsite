@@ -2,7 +2,11 @@ import { ExperiencePhoto } from "@/components/experience/ExperiencePhoto";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { experienceJourneyImage } from "@/lib/experience-images";
 import { sectionPaddingX, sectionPaddingY } from "@/lib/section-padding";
-import { splitSectionHeadlineClassName } from "@/lib/typography";
+import {
+  sectionBodyClassName,
+  splitSectionHeadlineClassName,
+  splitSectionTextColumnClassName,
+} from "@/lib/typography";
 
 export function JourneyBeginningSection() {
   return (
@@ -10,14 +14,14 @@ export function JourneyBeginningSection() {
       className={`border-b border-slate/10 bg-cream ${sectionPaddingY}`}
     >
       <div
-        className={`grid items-center gap-12 lg:grid-cols-2 lg:gap-16 ${sectionPaddingX}`}
+        className={`mx-auto grid max-w-6xl items-center gap-10 sm:gap-12 lg:grid-cols-2 lg:gap-16 ${sectionPaddingX}`}
       >
-        <div>
+        <div className={splitSectionTextColumnClassName}>
           <SectionEyebrow>Working Together</SectionEyebrow>
           <h2 className={splitSectionHeadlineClassName}>
-            You Show Up. I&apos;ll Handle the Rest.
+            You Show Up, I&apos;ll Handle the Rest
           </h2>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-body">
+          <p className={sectionBodyClassName}>
             From your first email to your final gallery, I&apos;m here to keep
             things simple and relaxed. I&apos;ll help with timelines, light, and
             locations so you can stay present and enjoy the day, knowing the
@@ -28,7 +32,7 @@ export function JourneyBeginningSection() {
         <ExperiencePhoto
           src={experienceJourneyImage.src}
           alt={experienceJourneyImage.alt}
-          className="aspect-[4/5] w-full lg:max-w-[520px] lg:justify-self-end"
+          className="mx-auto aspect-[4/5] w-full max-w-2xl lg:mx-0 lg:max-w-[520px] lg:justify-self-end"
         />
       </div>
     </section>

@@ -38,12 +38,12 @@ export function PortfolioCategoryCard({
         className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/25 opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:group-hover:opacity-100"
       />
 
-      <div className="absolute inset-x-0 bottom-0 p-5 text-left">
+      <div className="absolute inset-x-0 bottom-0 p-5 max-lg:text-center lg:text-left">
         <p className="mb-3 font-sans text-xs font-normal leading-relaxed tracking-[0.8px] text-white/90 opacity-100 translate-y-0 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:pointer-events-none sm:mb-3 sm:translate-y-3 sm:opacity-0 sm:group-hover:translate-y-0 sm:group-hover:opacity-100">
           {description}
         </p>
 
-        <div className="flex items-end justify-between gap-2">
+        <div className="flex items-end justify-between gap-2 max-lg:flex-col max-lg:items-center">
           <span className="font-serif text-[1.375rem] leading-none text-white">
             {title}
           </span>

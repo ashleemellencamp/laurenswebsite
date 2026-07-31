@@ -27,7 +27,7 @@ export const experienceStyleContent = {
     heading: "The Real Stuff, Not the Posed Stuff",
     body:
       "I'm looking for the laugh that cracks you open, the quiet glance across the room, and the tiny in-between moments you'll forget happened until you see them again. A little direction when you need it — then I step back and let things unfold.",
-    photoAlign: "right",
+    photoAlign: "left",
     image: {
       src: "/images/portfolio/franklin-engagement/05.jpg",
       alt: "Couple sharing an intimate moment in a rustic brick entryway",

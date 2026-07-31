@@ -13,7 +13,7 @@ import {
 } from "@/lib/portfolio-categories";
 import type { PortfolioGallery } from "@/lib/portfolio-galleries";
 import { sectionPaddingX, sectionPaddingY } from "@/lib/section-padding";
-import { contentTitleClassName } from "@/lib/typography";
+import { contentTitleClassName, sectionBodyClassName } from "@/lib/typography";
 
 import { PortfolioGalleryCarousel } from "./PortfolioGalleryCarousel";
 
@@ -74,8 +74,8 @@ export function PortfolioGallerySection({
       className={`gallery-themed border-b border-slate/10 bg-cream ${sectionPaddingY}`}
       style={themeStyle}
     >
-      <div className={sectionPaddingX}>
-        <div className="flex items-start justify-between gap-6">
+      <div className={`${sectionPaddingX} max-lg:text-center`}>
+        <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-start lg:justify-between lg:text-left">
           <h2
             className={`${contentTitleClassName} transition-colors duration-700 ease-out`}
             style={{ color: accentColor }}
@@ -93,7 +93,7 @@ export function PortfolioGallerySection({
             {categoryLabel}
           </Link>
         </div>
-        <p className="mt-3 max-w-3xl text-base leading-relaxed text-body">
+        <p className={`mt-3 max-w-3xl ${sectionBodyClassName} max-lg:mx-auto`}>
           {gallery.description}
         </p>
       </div>

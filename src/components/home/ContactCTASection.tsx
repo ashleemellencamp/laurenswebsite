@@ -8,7 +8,7 @@ import {
 } from "@/components/scrapbook/ScrapbookTape";
 import { getCtaBackground } from "@/lib/cta-backgrounds";
 import { sectionPadding, sectionPaddingX } from "@/lib/section-padding";
-import { sectionHeadlineClassName } from "@/lib/typography";
+import { sectionHeadlineCenteredClassName } from "@/lib/typography";
 
 type ContactCTASectionProps = {
   className?: string;
@@ -22,12 +22,12 @@ function ScrapbookCard() {
       className={`relative w-full max-w-[420px] rotate-[-1.2deg] bg-[#faf8f5] px-7 py-9 sm:px-9 sm:py-10 ${scrapbookCardShadow}`}
     >
       <ScrapbookTape className="-top-3.5 left-1/2 -translate-x-1/2 rotate-[2deg]" />
-      <h2 className={`text-center ${sectionHeadlineClassName}`}>
-        Every Love Story Begins With a Hello.
+      <h2 className={sectionHeadlineCenteredClassName}>
+        Every Love Story Begins With a Hello
       </h2>
 
       <p className="mt-4 text-center font-sans text-sm leading-relaxed tracking-[0.8px] text-body">
-        Let&apos;s Capture Yours, Wherever It Unfolds.
+        Let&apos;s Capture Yours, Wherever It Unfolds
       </p>
 
       <div className="mt-8 flex justify-center">
@@ -51,8 +51,8 @@ export function ContactCTASection({
           <SectionEyebrow className="text-center">
             Every Love Story Begins With a Hello
           </SectionEyebrow>
-          <h2 className={sectionHeadlineClassName}>
-            Let&apos;s Capture Yours, Wherever It Unfolds.
+          <h2 className={sectionHeadlineCenteredClassName}>
+            Let&apos;s Capture Yours, Wherever It Unfolds
           </h2>
           <PrimaryButton href="/contact" className="mt-10">
             Contact Me

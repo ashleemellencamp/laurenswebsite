@@ -49,7 +49,7 @@ export function IntroSection() {
       <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
         <SectionEyebrow className="text-center">The Portfolio</SectionEyebrow>
         <h2 className={`max-w-2xl ${featuredHeadlineClassName}`}>
-          However You Celebrate, I&apos;m In.
+          However You Celebrate, I&apos;m In
         </h2>
 
         <div className="mt-12 grid w-full grid-cols-1 gap-6 overflow-visible py-2 sm:grid-cols-2 sm:py-6 lg:mt-14 lg:grid-cols-4 lg:gap-6 lg:py-8">

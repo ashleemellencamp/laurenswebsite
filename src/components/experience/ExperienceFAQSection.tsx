@@ -1,12 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { experienceFAQ } from "@/lib/experience-faq";
 import { sectionPadding, sectionPaddingX } from "@/lib/section-padding";
-import { sectionHeadlineLargeClassName } from "@/lib/typography";
+import {
+  mobileCenterLgLeftClassName,
+  sectionBodyCenteredClassName,
+  sectionBodySmallClassName,
+  sectionHeadlineLargeClassName,
+} from "@/lib/typography";
 
 function ChevronIcon({ isOpen }: { isOpen: boolean }) {
   return (
@@ -41,7 +45,7 @@ export function ExperienceFAQSection() {
         <h2 className={sectionHeadlineLargeClassName}>
           Frequently Asked Questions
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-body">
+        <p className={`mx-auto mt-4 max-w-xl ${sectionBodyCenteredClassName}`}>
           A few things couples often ask before we start planning together.
         </p>
       </div>
@@ -69,40 +73,20 @@ export function ExperienceFAQSection() {
 
                 {isActive && (
                   <div className="mt-4 rounded-2xl bg-white p-5 lg:p-6">
-                    <div
-                      className={
-                        item.hasImage
-                          ? "grid gap-6 lg:grid-cols-[1fr_minmax(180px,240px)] lg:items-start lg:gap-8"
-                          : undefined
-                      }
+                    {item.answerTitle && (
+                      <p
+                        className={`text-base text-slate lg:text-lg ${mobileCenterLgLeftClassName}`}
+                      >
+                        {item.answerTitle}
+                      </p>
+                    )}
+                    <p
+                      className={`${sectionBodySmallClassName} ${
+                        item.answerTitle ? "mt-4" : ""
+                      }`}
                     >
-                      <div>
-                        {item.answerTitle && (
-                          <p className="text-base text-slate lg:text-lg">
-                            {item.answerTitle}
-                          </p>
-                        )}
-                        <p
-                          className={`text-sm leading-relaxed text-body lg:text-base ${
-                            item.answerTitle ? "mt-4" : ""
-                          }`}
-                        >
-                          {item.answer}
-                        </p>
-                      </div>
-
-                      {item.hasImage && item.imageSrc && (
-                        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-xl">
-                          <Image
-                            src={item.imageSrc}
-                            alt={item.imageAlt ?? ""}
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 240px"
-                            className="object-cover"
-                          />
-                        </div>
-                      )}
-                    </div>
+                      {item.answer}
+                    </p>
                   </div>
                 )}
               </div>
