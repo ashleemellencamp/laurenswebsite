@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 import { TapedPhotoCard } from "@/components/scrapbook/TapedPhotoCard";
 import type { ScrapbookIntroVariant } from "@/lib/scrapbook-intro-content";
@@ -6,6 +9,8 @@ import {
   scrapbookCollageLayouts,
   type ScrapbookDoodleLayout,
 } from "@/lib/scrapbook-collage-layouts";
+
+export type ScrapbookCollageVariant = ScrapbookIntroVariant;
 
 const FRAME_WIDTH = 584.639;
 const FRAME_HEIGHT = 519.069;
@@ -67,17 +72,45 @@ function ScrapbookDoodle({
 }
 
 type ScrapbookCollageProps = {
-  variant: ScrapbookIntroVariant;
+  variant: ScrapbookCollageVariant;
   align?: "left" | "right";
   className?: string;
+  playful?: boolean;
 };
 
 export function ScrapbookCollage({
   variant,
   align = "left",
   className = "",
+  playful = variant === "about" || variant === "thingsThatMoveMe",
 }: ScrapbookCollageProps) {
-  const { texture, photos, doodles } = scrapbookCollageLayouts[variant];
+  const layout = scrapbookCollageLayouts[variant];
+  const { texture, photos, doodles } = layout;
+  const [parallax, setParallax] = useState({ x: 0, y: 0 });
+  const [motionEnabled, setMotionEnabled] = useState(false);
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const prefersFinePointer = window.matchMedia("(hover: hover)").matches;
+
+    setMotionEnabled(playful && !prefersReduced && prefersFinePointer);
+  }, [playful]);
+
+  function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
+    if (!motionEnabled) return;
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    setParallax({
+      x: (event.clientX - rect.left) / rect.width - 0.5,
+      y: (event.clientY - rect.top) / rect.height - 0.5,
+    });
+  }
+
+  function handleMouseLeave() {
+    setParallax({ x: 0, y: 0 });
+  }
 
   return (
     <div className={`relative z-10 overflow-visible pb-2 lg:pb-6 ${className}`}>
@@ -88,6 +121,8 @@ export function ScrapbookCollage({
             : "lg:origin-[72%_50%]"
         }`}
         style={{ aspectRatio: `${FRAME_WIDTH} / ${FRAME_HEIGHT}` }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
       >
         {texture && (
           <Image
@@ -106,24 +141,38 @@ export function ScrapbookCollage({
           />
         )}
 
-        {photos.map((photo, index) => (
-          <TapedPhotoCard
-            key={photo.src}
-            src={photo.src}
-            alt={photo.alt}
-            orientation={photo.orientation}
-            className={`absolute z-10 ${photo.rotate}`}
-            style={{
-              left: px(photo.left),
-              top: py(photo.top),
-              width: pw(photo.width),
-              zIndex: 10 + index * 10,
-            }}
-            tapeClassName={photo.tapeClassName}
-            imageClassName={photo.imageClassName}
-            sizes={photo.sizes}
-          />
-        ))}
+        {photos.map((photo, index) => {
+          const depth = index + 1;
+          const parallaxX = motionEnabled ? parallax.x * depth * 14 : 0;
+          const parallaxY = motionEnabled ? parallax.y * depth * 10 : 0;
+
+          return (
+            <div
+              key={photo.src}
+              className="absolute z-10 transition-transform duration-500 ease-out"
+              style={{
+                left: px(photo.left),
+                top: py(photo.top),
+                width: pw(photo.width),
+                zIndex: 10 + index * 10,
+                transform: `translate3d(${parallaxX}px, ${parallaxY}px, 0)`,
+              }}
+            >
+              <TapedPhotoCard
+                src={photo.src}
+                alt={photo.alt}
+                caption={photo.caption}
+                orientation={photo.orientation}
+                interactive={playful}
+                animationDelay={`${index * 0.8}s`}
+                className={`w-full ${photo.rotate}`}
+                tapeClassName={photo.tapeClassName}
+                imageClassName={photo.imageClassName}
+                sizes={photo.sizes}
+              />
+            </div>
+          );
+        })}
 
         {doodles.map((doodle, index) => (
           <ScrapbookDoodle

@@ -1,9 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, type RefObject } from "react";
 
-import type { PortfolioGallery } from "@/lib/portfolio-galleries";
+import { hexToRgba } from "@/lib/extract-gallery-accent-color";
+import {
+  getPortfolioGalleryScrollHint,
+  usePortfolioGalleryScroll,
+} from "@/hooks/usePortfolioGalleryScroll";
+import type { PortfolioGallery, PortfolioGalleryImage } from "@/lib/portfolio-galleries";
 import { sectionPaddingX } from "@/lib/section-padding";
 
 import { PortfolioLightbox } from "./PortfolioLightbox";
@@ -14,115 +19,149 @@ type PortfolioGalleryCarouselProps = {
 };
 
 const portraitFrameClass = "aspect-[2/3] w-[min(391px,70vw)]";
-const WHEEL_SCROLL_SPEED = 0.38;
-const WHEEL_DELTA_CAP = 48;
-const SCROLL_EASE = 0.07;
+const galleryPageBg = "#fbf6f2";
+
+function getGalleryEdgeFadeBase(accent: string, isActive: boolean) {
+  return isActive
+    ? `color-mix(in srgb, ${accent} 10%, ${galleryPageBg})`
+    : galleryPageBg;
+}
+
+function getGalleryEdgeFadeGradient(side: "left" | "right", baseColor: string) {
+  const direction = side === "left" ? "to right" : "to left";
+
+  return `linear-gradient(${direction}, color-mix(in srgb, ${baseColor} 62%, transparent) 0%, color-mix(in srgb, ${baseColor} 22%, transparent) 42%, transparent 78%)`;
+}
+
+function GalleryScrollIndicator({
+  scrollRef,
+  accentColor,
+}: {
+  scrollRef: RefObject<HTMLDivElement | null>;
+  accentColor?: string;
+}) {
+  const [metrics, setMetrics] = useState({
+    scrollLeft: 0,
+    scrollWidth: 0,
+    clientWidth: 0,
+  });
+
+  useEffect(() => {
+    const element = scrollRef.current;
+    if (!element) return;
+
+    const update = () => {
+      setMetrics({
+        scrollLeft: element.scrollLeft,
+        scrollWidth: element.scrollWidth,
+        clientWidth: element.clientWidth,
+      });
+    };
+
+    update();
+    element.addEventListener("scroll", update, { passive: true });
+
+    const resizeObserver = new ResizeObserver(update);
+    resizeObserver.observe(element);
+
+    return () => {
+      element.removeEventListener("scroll", update);
+      resizeObserver.disconnect();
+    };
+  }, [scrollRef]);
+
+  const maxScroll = metrics.scrollWidth - metrics.clientWidth;
+  const thumbRatio =
+    metrics.scrollWidth > 0 ? metrics.clientWidth / metrics.scrollWidth : 1;
+  const thumbWidthPercent = Math.min(thumbRatio * 100, 100);
+  const travelPercent = 100 - thumbWidthPercent;
+  const thumbLeftPercent =
+    maxScroll > 0 ? (metrics.scrollLeft / maxScroll) * travelPercent : 0;
+
+  if (maxScroll <= 0) return null;
+
+  return (
+    <div className="relative h-1.5 w-full" aria-hidden>
+      <div
+        className="absolute inset-0 rounded-full"
+        style={{
+          backgroundColor: hexToRgba(accentColor ?? "#42586e", 0.16),
+        }}
+      />
+      <div
+        className="absolute top-0 h-full rounded-full transition-[left] duration-100 ease-out"
+        style={{
+          width: `${thumbWidthPercent}%`,
+          left: `${thumbLeftPercent}%`,
+          backgroundColor: accentColor ?? "var(--color-blue-light)",
+        }}
+      />
+    </div>
+  );
+}
+
+function GalleryImageFrame({
+  image,
+  galleryTitle,
+  onOpen,
+}: {
+  image: PortfolioGalleryImage;
+  galleryTitle: string;
+  onOpen: () => void;
+}) {
+  const frameClass = image.aspectClass ?? portraitFrameClass;
+
+  return (
+    <div className={`relative shrink-0 overflow-hidden rounded-2xl ${frameClass}`}>
+      {image.src ? (
+        <button
+          type="button"
+          onClick={onOpen}
+          className="relative size-full cursor-zoom-in appearance-none border-0 bg-transparent p-0"
+          aria-label={`View larger: ${image.alt ?? galleryTitle}`}
+        >
+          <Image
+            src={image.src}
+            alt={image.alt ?? ""}
+            fill
+            draggable={false}
+            sizes="(max-width: 640px) 70vw, 391px"
+            className="pointer-events-none select-none object-cover"
+          />
+        </button>
+      ) : (
+        <div aria-hidden className={`size-full ${image.tone ?? "bg-slate/70"}`} />
+      )}
+    </div>
+  );
+}
 
 export function PortfolioGalleryCarousel({
   gallery,
   accentColor,
 }: PortfolioGalleryCarouselProps) {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const {
+    scrollRef,
+    trackRef,
+    galleryUnitRef,
+    isGalleryHovered,
+    isAtStart,
+    isAtEnd,
+    phase,
+    canWheelScroll,
+    isGalleryScrollActive,
+    galleryUnitHandlers,
+  } = usePortfolioGalleryScroll();
 
-  useEffect(() => {
-    const container = scrollRef.current;
-    if (!container) return;
-
-    let targetScroll = container.scrollLeft;
-    let rafId: number | null = null;
-    let lastFrameTime = 0;
-
-    const getMaxScroll = () => container.scrollWidth - container.clientWidth;
-
-    const clampScroll = (value: number) => {
-      const maxScroll = getMaxScroll();
-      return Math.max(0, Math.min(value, maxScroll));
-    };
-
-    const animate = (timestamp: number) => {
-      if (lastFrameTime === 0) {
-        lastFrameTime = timestamp;
-      }
-
-      const frameDelta = Math.min((timestamp - lastFrameTime) / 16.67, 2);
-      lastFrameTime = timestamp;
-
-      targetScroll = clampScroll(targetScroll);
-
-      const distance = targetScroll - container.scrollLeft;
-
-      if (Math.abs(distance) < 0.5) {
-        container.scrollLeft = targetScroll;
-        rafId = null;
-        lastFrameTime = 0;
-        return;
-      }
-
-      const ease = 1 - (1 - SCROLL_EASE) ** frameDelta;
-      container.scrollLeft += distance * ease;
-      rafId = requestAnimationFrame(animate);
-    };
-
-    const startAnimation = () => {
-      if (rafId === null) {
-        rafId = requestAnimationFrame(animate);
-      }
-    };
-
-    const normalizeWheelDelta = (event: WheelEvent) => {
-      if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) {
-        return event.deltaY * 16;
-      }
-
-      if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) {
-        return event.deltaY * container.clientWidth;
-      }
-
-      return event.deltaY;
-    };
-
-    const cappedWheelDelta = (event: WheelEvent) => {
-      const delta = normalizeWheelDelta(event) * WHEEL_SCROLL_SPEED;
-      return Math.sign(delta) * Math.min(Math.abs(delta), WHEEL_DELTA_CAP);
-    };
-
-    const handleWheel = (event: WheelEvent) => {
-      const { deltaX, deltaY } = event;
-
-      if (Math.abs(deltaX) > Math.abs(deltaY)) return;
-
-      const maxScroll = getMaxScroll();
-      if (maxScroll <= 0) return;
-
-      if (rafId === null) {
-        targetScroll = container.scrollLeft;
-      }
-
-      const scrollingForward = deltaY > 0;
-      const atStart = targetScroll <= 0 && container.scrollLeft <= 0;
-      const atEnd =
-        targetScroll >= maxScroll - 1 && container.scrollLeft >= maxScroll - 1;
-
-      if ((scrollingForward && atEnd) || (!scrollingForward && atStart)) {
-        return;
-      }
-
-      event.preventDefault();
-
-      targetScroll += cappedWheelDelta(event);
-      startAnimation();
-    };
-
-    container.addEventListener("wheel", handleWheel, { passive: false });
-
-    return () => {
-      container.removeEventListener("wheel", handleWheel);
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId);
-      }
-    };
-  }, []);
+  const accent = accentColor ?? "#42586e";
+  const activeBg = hexToRgba(accent, 0.1);
+  const edgeFadeBase = getGalleryEdgeFadeBase(accent, isGalleryScrollActive);
+  const scrollHint = getPortfolioGalleryScrollHint({
+    canWheelScroll,
+    isHovered: isGalleryHovered,
+    phase,
+  });
 
   const lightboxImages = gallery.images.flatMap((image) =>
     image.src ? [{ src: image.src, alt: image.alt ?? "" }] : [],
@@ -132,66 +171,111 @@ export function PortfolioGalleryCarousel({
     const image = gallery.images[index];
     if (!image?.src) return;
 
-    const lightboxIndex = lightboxImages.findIndex(
+    const nextLightboxIndex = lightboxImages.findIndex(
       (item) => item.src === image.src,
     );
 
-    if (lightboxIndex >= 0) {
-      setActiveIndex(lightboxIndex);
+    if (nextLightboxIndex >= 0) {
+      setLightboxIndex(nextLightboxIndex);
     }
   };
 
   return (
     <>
-      <div className={sectionPaddingX}>
+      <div className={`${sectionPaddingX} mt-10 lg:mt-12`}>
         <div
-          ref={scrollRef}
+          ref={galleryUnitRef}
+          className="relative"
+          tabIndex={0}
           role="region"
-          aria-label={`${gallery.title} photo gallery`}
-          className="gallery-scroll gallery-scroll-themed mt-10 overflow-x-auto overscroll-x-contain pb-3 lg:mt-12 lg:pb-4"
-          style={
-            accentColor
-              ? ({ "--gallery-scrollbar": accentColor } as React.CSSProperties)
-              : undefined
-          }
+          aria-label={`${gallery.title} photo gallery. Hover and scroll to explore.`}
+          {...galleryUnitHandlers}
         >
-          <div className="flex w-max flex-nowrap gap-4 lg:gap-6">
-            {gallery.images.map((image, index) => (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -inset-x-5 -inset-y-4 rounded-[2rem] transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.33,1,0.38,1)] lg:-inset-x-7 lg:-inset-y-5"
+            style={{
+              backgroundColor: activeBg,
+              opacity: isGalleryScrollActive ? 1 : 0,
+              transform: isGalleryScrollActive ? "scale(1)" : "scale(0.985)",
+            }}
+          />
+
+          <div className="relative z-[1]">
+            {!isAtStart && (
               <div
-                key={image.id}
-                className={`relative shrink-0 overflow-hidden rounded-2xl ${image.aspectClass ?? portraitFrameClass}`}
+                aria-hidden
+                className="pointer-events-none absolute top-0 bottom-3 left-0 z-10 w-7 transition-[opacity,background] duration-500 ease-[cubic-bezier(0.33,1,0.38,1)] sm:w-8 lg:bottom-4 lg:w-10"
+                style={{
+                  background: getGalleryEdgeFadeGradient("left", edgeFadeBase),
+                }}
+              />
+            )}
+            {!isAtEnd && (
+              <div
+                aria-hidden
+                className="pointer-events-none absolute top-0 right-0 bottom-3 z-10 w-7 transition-[opacity,background] duration-500 ease-[cubic-bezier(0.33,1,0.38,1)] sm:w-8 lg:bottom-4 lg:w-10"
+                style={{
+                  background: getGalleryEdgeFadeGradient("right", edgeFadeBase),
+                }}
+              />
+            )}
+
+            <div
+              ref={scrollRef}
+              className={`scrollbar-hide overflow-x-auto overflow-y-hidden overscroll-x-contain pb-3 outline-none lg:pb-4 ${
+                isGalleryScrollActive ? "cursor-ew-resize" : ""
+              }`}
+            >
+              <div
+                ref={trackRef}
+                className="relative flex w-max flex-nowrap gap-4 lg:gap-6"
               >
-                {image.src ? (
-                  <button
-                    type="button"
-                    onClick={() => openLightbox(index)}
-                    className="relative size-full cursor-zoom-in appearance-none border-0 bg-transparent p-0"
-                    aria-label={`View larger: ${image.alt ?? gallery.title}`}
-                  >
-                    <Image
-                      src={image.src}
-                      alt={image.alt ?? ""}
-                      fill
-                      draggable={false}
-                      sizes="(max-width: 640px) 70vw, 391px"
-                      className="pointer-events-none select-none object-cover"
-                    />
-                  </button>
-                ) : (
-                  <div aria-hidden className={`size-full ${image.tone ?? "bg-slate/70"}`} />
-                )}
+                {gallery.images.map((image, index) => (
+                  <GalleryImageFrame
+                    key={image.id}
+                    image={image}
+                    galleryTitle={gallery.title}
+                    onOpen={() => openLightbox(index)}
+                  />
+                ))}
               </div>
-            ))}
+            </div>
+          </div>
+
+          <div className="relative z-[1] mt-3 lg:mt-4">
+            <div
+              className={`flex items-center gap-4 ${
+                isGalleryScrollActive ? "justify-between" : "justify-end"
+              }`}
+            >
+              {isGalleryScrollActive ? (
+                <div className="min-w-0 flex-1">
+                  <GalleryScrollIndicator
+                    scrollRef={scrollRef}
+                    accentColor={accent}
+                  />
+                </div>
+              ) : null}
+              <p
+                className={`shrink-0 text-right font-sans text-[0.62rem] uppercase tracking-[0.12em] transition-[color,opacity] duration-500 ${
+                  isGalleryScrollActive ? "font-medium" : "text-body/60"
+                }`}
+                style={isGalleryScrollActive ? { color: accent } : undefined}
+              >
+                {scrollHint}
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
       <PortfolioLightbox
         images={lightboxImages}
-        activeIndex={activeIndex}
+        activeIndex={lightboxIndex}
         galleryTitle={gallery.title}
-        onClose={() => setActiveIndex(null)}
-        onChangeIndex={setActiveIndex}
+        onClose={() => setLightboxIndex(null)}
+        onChangeIndex={setLightboxIndex}
       />
     </>
   );

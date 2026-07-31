@@ -4,7 +4,7 @@ export function AboutHeroSection() {
   return (
     <InteriorPageHero
       eyebrow="About Lauren"
-      headline="Hi — I'm Lauren. Glad you're here."
+      headline="Photographing love across the South and beyond."
     />
   );
 }

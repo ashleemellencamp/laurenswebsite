@@ -14,7 +14,7 @@ export function JourneyBeginningSection() {
         <div>
           <SectionEyebrow>Working Together</SectionEyebrow>
           <h2 className="mt-3 text-3xl leading-tight lg:text-4xl">
-            Journey Beginning
+            You show up. I&apos;ll handle the rest.
           </h2>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-body">
             From your first email to your final gallery, I&apos;m here to keep

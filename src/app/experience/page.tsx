@@ -3,7 +3,7 @@ import { ContactCTASection } from "@/components/home/ContactCTASection";
 import { ExperienceFAQSection } from "@/components/experience/ExperienceFAQSection";
 import { ExperienceHeroSection } from "@/components/experience/ExperienceHeroSection";
 import { JourneyBeginningSection } from "@/components/experience/JourneyBeginningSection";
-import { MyStyleSection } from "@/components/experience/MyStyleSection";
+import { ExperienceStyleSections } from "@/components/experience/ExperienceStyleSections";
 import { PhilosophyQuoteSection } from "@/components/experience/PhilosophyQuoteSection";
 import { getCtaBackground } from "@/lib/cta-backgrounds";
 
@@ -19,7 +19,7 @@ export default function ExperiencePage() {
       <ExperienceHeroSection />
       <JourneyBeginningSection />
       <PhilosophyQuoteSection />
-      <MyStyleSection />
+      <ExperienceStyleSections />
       <ExperienceFAQSection />
       <ContactCTASection backgroundSrc={getCtaBackground("experience")} />
     </div>

@@ -70,6 +70,7 @@ export function ContactCTASection({
           alt=""
           fill
           sizes="100vw"
+          quality={90}
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-black/20" />

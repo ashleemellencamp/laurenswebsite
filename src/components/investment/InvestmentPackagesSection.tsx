@@ -62,7 +62,8 @@ export function InvestmentPackagesSection() {
 
     function syncImageHeight() {
       const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-      setAccordionHeight(isDesktop ? node.offsetHeight : null);
+      const current = accordionRef.current;
+      setAccordionHeight(isDesktop && current ? current.offsetHeight : null);
     }
 
     syncImageHeight();
@@ -106,7 +107,7 @@ export function InvestmentPackagesSection() {
 
               return (
                 <li key={pkg.id}>
-                  <div className="rounded-[2rem] bg-[#e4e8df] px-5 py-4 lg:px-7 lg:py-5">
+                  <div className="rounded-[2rem] bg-sage px-5 py-4 lg:px-7 lg:py-5">
                     <button
                       type="button"
                       onClick={() => togglePackage(pkg.id)}

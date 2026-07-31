@@ -6,6 +6,9 @@ type TapedPhotoCardProps = {
   src: string;
   alt: string;
   orientation: "portrait" | "landscape";
+  caption?: string;
+  interactive?: boolean;
+  animationDelay?: string;
   className?: string;
   style?: React.CSSProperties;
   tapeClassName?: string;
@@ -17,6 +20,9 @@ export function TapedPhotoCard({
   src,
   alt,
   orientation,
+  caption,
+  interactive = false,
+  animationDelay = "0s",
   className = "",
   style,
   tapeClassName = "-top-3 left-1/2 -translate-x-1/2 rotate-[2deg] sm:-top-3.5",
@@ -24,9 +30,21 @@ export function TapedPhotoCard({
   sizes = "(max-width: 640px) 45vw, 260px",
 }: TapedPhotoCardProps) {
   return (
-    <div className={className} style={style}>
+    <div
+      className={`${className} ${
+        interactive ? "animate-scrapbook-float motion-reduce:animate-none" : ""
+      }`}
+      style={{
+        ...style,
+        ...(interactive ? { animationDelay } : {}),
+      }}
+    >
       <div
-        className={`relative bg-[#faf8f5] px-2 pt-2 pb-7 sm:px-3 sm:pt-3 sm:pb-10 ${scrapbookCardShadow}`}
+        className={`relative bg-[#faf8f5] px-2 pt-2 pb-7 sm:px-3 sm:pt-3 sm:pb-10 ${scrapbookCardShadow} ${
+          interactive
+            ? "scrapbook-photo-lift transition-[transform,box-shadow] duration-300 ease-out"
+            : ""
+        }`}
       >
         <ScrapbookTape className={tapeClassName} />
         <div
@@ -42,6 +60,11 @@ export function TapedPhotoCard({
             className={`object-cover ${imageClassName}`}
           />
         </div>
+        {caption ? (
+          <p className="pointer-events-none absolute inset-x-2 bottom-2 text-center font-script text-[clamp(0.8rem,2.4vw,1.05rem)] leading-none tracking-[0.02em] text-body rotate-[-1.5deg] sm:inset-x-3 sm:bottom-3">
+            {caption}
+          </p>
+        ) : null}
       </div>
     </div>
   );

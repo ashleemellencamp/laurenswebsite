@@ -6,6 +6,7 @@ export type ScrapbookPhotoLayout = {
   src: string;
   alt: string;
   orientation: "portrait" | "landscape";
+  caption?: string;
   left: number;
   top: number;
   width: number;
@@ -55,6 +56,7 @@ export const scrapbookCollageLayouts: Record<
         tapeClassName:
           "-top-3 left-[58%] -translate-x-1/2 rotate-[3deg] sm:-top-3.5",
         imageClassName: "object-[center_18%]",
+        caption: "Joshua Tree, 2020",
       },
       {
         src: "/images/home/scrapbook/photo-van.jpg",
@@ -68,6 +70,7 @@ export const scrapbookCollageLayouts: Record<
           "-top-3 left-[42%] -translate-x-1/2 -rotate-[1deg] sm:-top-3.5",
         imageClassName: "object-[center_35%]",
         sizes: "(max-width: 640px) 55vw, 320px",
+        caption: "Oregon, 2021",
       },
     ],
     doodles: [
@@ -87,6 +90,7 @@ export const scrapbookCollageLayouts: Record<
       {
         src: aboutTravelImages.redRocks.src,
         alt: aboutTravelImages.redRocks.alt,
+        caption: aboutTravelImages.redRocks.caption,
         orientation: "portrait",
         left: 286,
         top: 28,
@@ -100,8 +104,9 @@ export const scrapbookCollageLayouts: Record<
       {
         src: aboutTravelImages.camperVan.src,
         alt: aboutTravelImages.camperVan.alt,
+        caption: aboutTravelImages.camperVan.caption,
         orientation: "landscape",
-        left: 34,
+        left: 68,
         top: 272,
         width: 286,
         rotate: "rotate-[2.8deg]",
@@ -118,6 +123,7 @@ export const scrapbookCollageLayouts: Record<
       {
         src: aboutTravelImages.coastalCliffs.src,
         alt: aboutTravelImages.coastalCliffs.alt,
+        caption: aboutTravelImages.coastalCliffs.caption,
         orientation: "landscape",
         left: 188,
         top: 18,
@@ -131,6 +137,7 @@ export const scrapbookCollageLayouts: Record<
       {
         src: aboutTravelImages.joshuaTreeNight.src,
         alt: aboutTravelImages.joshuaTreeNight.alt,
+        caption: aboutTravelImages.joshuaTreeNight.caption,
         orientation: "portrait",
         left: 52,
         top: 248,

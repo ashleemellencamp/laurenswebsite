@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "optimize:travel-images": "node scripts/optimize-travel-images.mjs",
+    "generate:style-palette": "node scripts/generate-style-palette.mjs",
     "generate:world-map": "node scripts/generate-world-map.mjs"
   },
   "dependencies": {

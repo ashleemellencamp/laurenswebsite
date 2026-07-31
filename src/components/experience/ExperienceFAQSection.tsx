@@ -51,7 +51,7 @@ export function ExperienceFAQSection() {
 
           return (
             <li key={item.id}>
-              <div className="rounded-[2rem] bg-[#e4e8df] px-5 py-4 lg:px-7 lg:py-5">
+              <div className="rounded-[2rem] bg-sage px-5 py-4 lg:px-7 lg:py-5">
                 <button
                   type="button"
                   onClick={() => toggleItem(item.id)}

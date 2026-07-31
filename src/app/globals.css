@@ -10,6 +10,8 @@
 
   --color-blue-light: #acbdcd;
 
+  --color-sage: #e4e8df;
+
   --color-slate: #42586e;
 
   --color-terracotta: #5d3722;
@@ -70,6 +72,86 @@ button:not([class*="font-sans"]) {
   font-family: var(--font-serif);
 
   font-weight: 700;
+
+}
+
+
+
+@keyframes scrapbook-float {
+
+  0%, 100% {
+
+    transform: translateY(0);
+
+  }
+
+  50% {
+
+    transform: translateY(-6px);
+
+  }
+
+}
+
+
+
+@utility animate-scrapbook-float {
+
+  animation: scrapbook-float 5.5s ease-in-out infinite;
+
+}
+
+
+
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-scrapbook-float {
+
+    animation: none;
+
+  }
+
+}
+
+
+
+@media (hover: hover) {
+
+  .scrapbook-photo-lift:hover {
+
+    transform: translateY(-8px) scale(1.025);
+
+    box-shadow:
+
+      0 14px 40px rgba(66, 88, 110, 0.24),
+
+      0 4px 12px rgba(0, 0, 0, 0.08);
+
+  }
+
+}
+
+
+
+.palette-grid-swatch {
+
+  transition: filter 220ms ease, transform 220ms ease;
+
+}
+
+
+
+@media (hover: hover) {
+
+  .palette-grid-swatch:hover {
+
+    filter: brightness(1.06);
+
+    transform: scale(1.02);
+
+    z-index: 1;
+
+  }
 
 }
 

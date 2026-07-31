@@ -21,7 +21,7 @@ export const scrapbookIntroContent: Record<
     background: "cream",
   },
   about: {
-    eyebrow: "About Lauren",
+    eyebrow: "Get to Know Me",
     heading: "Behind the Lens",
     body:
       "I'm based in Nashville, but my camera and I are always up for a road trip — especially if it ends somewhere with good light and a story worth telling. I started shooting because I loved the in-between moments more than the posed ones, and that still guides everything I do. When you work with me, you're getting someone who'll calm your nerves, hype you up, and quietly notice the details you'll want to remember forever.",
@@ -29,7 +29,7 @@ export const scrapbookIntroContent: Record<
     background: "white",
   },
   thingsThatMoveMe: {
-    eyebrow: "What Inspires Me",
+    eyebrow: "My Inspirations",
     heading: "The things that move me",
     body:
       "Golden hour drives with the windows down. Old records and film grain. The hum of a reception just before the music starts. People who love big, laugh loudly, and aren't afraid to be themselves in front of the camera.",
