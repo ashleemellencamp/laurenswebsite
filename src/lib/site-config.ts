@@ -5,7 +5,7 @@ export const siteConfig: SiteConfig = {
   tagline: "Wedding & Portrait Photographer",
   footerTagline:
     "Timeless storytelling for modern romantics · Based in Nashville, traveling worldwide.",
-  email: "hello@example.com",
+  email: process.env.CONTACT_EMAIL ?? "hello@example.com",
   location: "Nashville, TN",
   social: {
     instagram: "https://instagram.com",

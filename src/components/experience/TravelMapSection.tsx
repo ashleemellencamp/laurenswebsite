@@ -11,6 +11,7 @@ import {
   type MapPinLocation,
 } from "@/lib/travel-destinations";
 import { sectionPaddingX, sectionPaddingY } from "@/lib/section-padding";
+import { sectionHeadlineLargeClassName } from "@/lib/typography";
 
 function getTooltipOffset(mapX: number, mapY: number) {
   if (mapY < 32) {
@@ -98,7 +99,7 @@ function MapTooltip({
         <p className="mt-3 text-sm leading-relaxed text-body">
           {destination.description}
         </p>
-        <PrimaryButton href="/contact" className="mt-4 px-5 py-2.5 text-xs">
+        <PrimaryButton href="/contact" className="mt-4">
           Inquire
         </PrimaryButton>
       </div>
@@ -110,10 +111,12 @@ function MapPin({
   pin,
   isActive,
   onSelect,
+  showHint,
 }: {
   pin: MapPinLocation;
   isActive: boolean;
   onSelect: () => void;
+  showHint: boolean;
 }) {
   const destination = getDestinationById(pin.destinationId);
 
@@ -131,11 +134,16 @@ function MapPin({
         className={`relative flex items-center justify-center rounded-full transition-all duration-300 ${
           isActive
             ? "size-5 bg-slate ring-[6px] ring-blue-light/50 lg:size-6"
-            : "size-3 bg-blue-light/80 group-hover:size-4 group-hover:bg-slate lg:size-3.5"
+            : showHint
+              ? "size-3.5 bg-blue-light ring-4 ring-blue-light/25 lg:size-4"
+              : "size-3 bg-blue-light/80 group-hover:size-4 group-hover:bg-slate lg:size-3.5"
         }`}
       >
+        {showHint && !isActive && (
+          <span className="absolute inline-flex size-7 animate-ping rounded-full bg-blue-light/20 motion-reduce:animate-none" />
+        )}
         {isActive && (
-          <span className="absolute inline-flex size-8 animate-ping rounded-full bg-blue-light/25" />
+          <span className="absolute inline-flex size-8 animate-ping rounded-full bg-blue-light/25 motion-reduce:animate-none" />
         )}
       </span>
     </button>
@@ -144,7 +152,13 @@ function MapPin({
 
 export function TravelMapSection() {
   const [activePin, setActivePin] = useState<MapPinLocation | null>(null);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const closeTooltip = useCallback(() => setActivePin(null), []);
+
+  function handlePinSelect(pin: MapPinLocation) {
+    setHasInteracted(true);
+    setActivePin(pin);
+  }
 
   return (
     <section
@@ -152,28 +166,38 @@ export function TravelMapSection() {
     >
       <div className={`mx-auto max-w-4xl text-center ${sectionPaddingX}`}>
         <SectionEyebrow className="text-center">
-          Let&apos;s go somewhere
+          Let&apos;s Go Somewhere
         </SectionEyebrow>
-        <h2 className="mt-3 text-[clamp(2.25rem,5vw,3.5rem)] leading-none tracking-[0.02em]">
-          Travel Bucket List
-        </h2>
+        <h2 className={sectionHeadlineLargeClassName}>Travel Bucket List</h2>
         <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-body">
           These are the places I&apos;m dreaming of shooting next. Planning a
           wedding, elopement, or session in one of them? I&apos;d love to be
           your photographer — reach out and let&apos;s make it happen.
         </p>
+        <p
+          id="travel-map-hint"
+          className={`mt-8 font-sans text-xs uppercase tracking-[0.12em] text-body/60 transition-opacity duration-500 ${
+            hasInteracted ? "pointer-events-none opacity-0" : "opacity-100"
+          }`}
+        >
+          Click a pin to explore
+        </p>
       </div>
 
-      <div className={`mt-12 w-full lg:mt-16 ${sectionPaddingX}`}>
+      <div className={`mt-8 w-full lg:mt-10 ${sectionPaddingX}`}>
         <div className="mx-auto w-full max-w-7xl">
-          <div className="relative aspect-[1010/666] w-full">
+          <div
+            className="relative aspect-[1010/666] w-full"
+            aria-describedby={hasInteracted ? undefined : "travel-map-hint"}
+          >
             <TravelWorldMap />
             {mapPinLocations.map((pin) => (
               <MapPin
                 key={pin.id}
                 pin={pin}
                 isActive={activePin?.id === pin.id}
-                onSelect={() => setActivePin(pin)}
+                onSelect={() => handlePinSelect(pin)}
+                showHint={!hasInteracted}
               />
             ))}
             {activePin && (

@@ -56,7 +56,6 @@ export const scrapbookCollageLayouts: Record<
         tapeClassName:
           "-top-3 left-[58%] -translate-x-1/2 rotate-[3deg] sm:-top-3.5",
         imageClassName: "object-[center_18%]",
-        caption: "Joshua Tree, 2020",
       },
       {
         src: "/images/home/scrapbook/photo-van.jpg",
@@ -70,7 +69,6 @@ export const scrapbookCollageLayouts: Record<
           "-top-3 left-[42%] -translate-x-1/2 -rotate-[1deg] sm:-top-3.5",
         imageClassName: "object-[center_35%]",
         sizes: "(max-width: 640px) 55vw, 320px",
-        caption: "Oregon, 2021",
       },
     ],
     doodles: [

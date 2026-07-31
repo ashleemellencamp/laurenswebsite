@@ -40,7 +40,9 @@ export function TapedPhotoCard({
       }}
     >
       <div
-        className={`relative bg-[#faf8f5] px-2 pt-2 pb-7 sm:px-3 sm:pt-3 sm:pb-10 ${scrapbookCardShadow} ${
+        className={`relative bg-[#faf8f5] px-2 pt-2 ${
+          caption ? "pb-7 sm:pb-10" : "pb-2 sm:pb-3"
+        } sm:px-3 sm:pt-3 ${scrapbookCardShadow} ${
           interactive
             ? "scrapbook-photo-lift transition-[transform,box-shadow] duration-300 ease-out"
             : ""

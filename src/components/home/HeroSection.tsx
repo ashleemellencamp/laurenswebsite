@@ -4,6 +4,7 @@ import { PrimaryButton } from "@/components/ui/PrimaryButton";
 
 import { mainNavLinks } from "@/lib/nav-links";
 import { sectionPaddingX } from "@/lib/section-padding";
+import { heroNavLinkClassName } from "@/lib/typography";
 
 import { heroGradientOverlay } from "@/lib/hero-gradient-overlay";
 
@@ -51,22 +52,14 @@ export function HeroSection() {
         className={`absolute top-[32px] right-0 left-0 z-30 flex items-center justify-end gap-6 ${sectionPaddingX} max-sm:top-6 max-sm:gap-4`}
       >
 
-        {mainNavLinks.map(({ href, heroLabel }) => (
-
+        {mainNavLinks.map(({ href, label }) => (
           <Link
-
             key={href}
-
             href={href}
-
-            className="relative z-30 font-serif text-base leading-none tracking-[0.8px] whitespace-nowrap text-white transition hover:opacity-80"
-
+            className={`relative z-30 ${heroNavLinkClassName}`}
           >
-
-            {heroLabel}
-
+            {label}
           </Link>
-
         ))}
 
       </nav>

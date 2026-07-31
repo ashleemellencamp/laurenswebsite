@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 
+import { ContactForm } from "@/components/contact/ContactForm";
 import { ContactHeroSection } from "@/components/contact/ContactHeroSection";
-import { primaryButtonClassName } from "@/components/ui/PrimaryButton";
 import { sectionPadding } from "@/lib/section-padding";
+import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -17,56 +18,17 @@ export default function ContactPage() {
 
       <section className={`bg-cream ${sectionPadding}`}>
         <div className="mx-auto max-w-3xl rounded-2xl border border-blue-light/30 bg-white px-6 py-12 lg:px-12 lg:py-16">
-          <form className="space-y-6 text-left">
-            <div>
-              <label
-                htmlFor="name"
-                className="mb-2 block text-sm font-medium uppercase tracking-[0.05em]"
-              >
-                Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                type="text"
-                required
-                className="w-full border border-blue-light bg-white px-4 py-3 focus:border-slate focus:outline-none"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="mb-2 block text-sm font-medium uppercase tracking-[0.05em]"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="w-full border border-blue-light bg-white px-4 py-3 focus:border-slate focus:outline-none"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="message"
-                className="mb-2 block text-sm font-medium uppercase tracking-[0.05em]"
-              >
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={5}
-                required
-                className="w-full resize-none border border-blue-light bg-white px-4 py-3 focus:border-slate focus:outline-none"
-              />
-            </div>
-            <button type="submit" className={`w-full ${primaryButtonClassName}`}>
-              Send Inquiry
-            </button>
-          </form>
+          <ContactForm />
+
+          <p className="mt-8 text-center font-sans text-sm tracking-[0.8px] text-body">
+            Prefer email?{" "}
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="text-slate underline decoration-blue-light underline-offset-4 transition hover:opacity-80"
+            >
+              {siteConfig.email}
+            </a>
+          </p>
         </div>
       </section>
     </>

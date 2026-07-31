@@ -43,7 +43,7 @@ export function PortfolioPageContent({
     <>
       <InteriorPageHero
         eyebrow="The Portfolio"
-        headline="Some stories I've been lucky to tell."
+        headline="Some Stories I've Been Lucky to Tell."
       >
         <div className="mt-8">
           <PortfolioFilterBar

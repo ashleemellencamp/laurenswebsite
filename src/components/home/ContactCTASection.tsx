@@ -1,12 +1,14 @@
 import Image from "next/image";
 
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
+import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import {
   ScrapbookTape,
   scrapbookCardShadow,
 } from "@/components/scrapbook/ScrapbookTape";
 import { getCtaBackground } from "@/lib/cta-backgrounds";
 import { sectionPadding, sectionPaddingX } from "@/lib/section-padding";
+import { sectionHeadlineClassName } from "@/lib/typography";
 
 type ContactCTASectionProps = {
   className?: string;
@@ -20,12 +22,12 @@ function ScrapbookCard() {
       className={`relative w-full max-w-[420px] rotate-[-1.2deg] bg-[#faf8f5] px-7 py-9 sm:px-9 sm:py-10 ${scrapbookCardShadow}`}
     >
       <ScrapbookTape className="-top-3.5 left-1/2 -translate-x-1/2 rotate-[2deg]" />
-      <h2 className="text-center font-serif text-[clamp(1.75rem,5vw,2.25rem)] leading-[1.2] text-slate">
-        Every love story begins with a hello.
+      <h2 className={`text-center ${sectionHeadlineClassName}`}>
+        Every Love Story Begins With a Hello.
       </h2>
 
       <p className="mt-4 text-center font-sans text-sm leading-relaxed tracking-[0.8px] text-body">
-        Let&apos;s capture yours, wherever it unfolds.
+        Let&apos;s Capture Yours, Wherever It Unfolds.
       </p>
 
       <div className="mt-8 flex justify-center">
@@ -46,11 +48,11 @@ export function ContactCTASection({
         className={`${sectionPadding} text-center ${className}`}
       >
         <div className="mx-auto max-w-2xl">
-          <p className="text-sm font-medium uppercase tracking-[0.8px] text-body">
-            Every love story begins with a hello
-          </p>
-          <h2 className="mt-4 text-4xl leading-tight lg:text-5xl">
-            Let&apos;s capture yours, wherever it unfolds.
+          <SectionEyebrow className="text-center">
+            Every Love Story Begins With a Hello
+          </SectionEyebrow>
+          <h2 className={sectionHeadlineClassName}>
+            Let&apos;s Capture Yours, Wherever It Unfolds.
           </h2>
           <PrimaryButton href="/contact" className="mt-10">
             Contact Me

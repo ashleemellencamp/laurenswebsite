@@ -1,6 +1,7 @@
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
-import { stripeBackground } from "@/lib/stripe-background";
 import { sectionPadding } from "@/lib/section-padding";
+import { stripeBackground } from "@/lib/stripe-background";
+import { pageHeroHeadlineClassName } from "@/lib/typography";
 
 type InteriorPageHeroProps = {
   eyebrow: string;
@@ -22,9 +23,7 @@ export function InteriorPageHero({
     >
       <div className="mx-auto max-w-3xl">
         <SectionEyebrow className="text-center">{eyebrow}</SectionEyebrow>
-        <h1 className="mt-3 text-[clamp(2rem,4vw,2.75rem)] leading-tight tracking-[0.02em]">
-          {headline}
-        </h1>
+        <h1 className={pageHeroHeadlineClassName}>{headline}</h1>
         {children}
       </div>
     </section>

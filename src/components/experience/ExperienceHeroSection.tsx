@@ -4,7 +4,7 @@ export function ExperienceHeroSection() {
   return (
     <InteriorPageHero
       eyebrow="The Experience"
-      headline="Here's what working together actually feels like."
+      headline="Here's What Working Together Actually Feels Like."
     />
   );
 }

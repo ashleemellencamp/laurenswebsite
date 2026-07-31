@@ -24,10 +24,10 @@ type ExperienceStyleColorBlock = {
 export const experienceStyleContent = {
   styleCandid: {
     eyebrow: "Candid Moments",
-    heading: "The real stuff, not the posed stuff",
+    heading: "The Real Stuff, Not the Posed Stuff",
     body:
       "I'm looking for the laugh that cracks you open, the quiet glance across the room, and the tiny in-between moments you'll forget happened until you see them again. A little direction when you need it — then I step back and let things unfold.",
-    photoAlign: "left",
+    photoAlign: "right",
     image: {
       src: "/images/portfolio/franklin-engagement/05.jpg",
       alt: "Couple sharing an intimate moment in a rustic brick entryway",
@@ -35,7 +35,7 @@ export const experienceStyleContent = {
   },
   styleLightMovement: {
     eyebrow: "Light & Movement",
-    heading: "Chasing good light, letting things unfold",
+    heading: "Chasing Good Light, Letting Things Unfold",
     body:
       "Golden hour through the trees, soft window light in a getting-ready room, or that moody last light before the sun dips — I build around the light your day actually gives us. I lean into natural movement and real interaction too, giving a bit of direction when you need it, then stepping back when the moment is already happening on its own.",
     photoAlign: "left",
@@ -46,7 +46,7 @@ export const experienceStyleContent = {
   },
   styleColor: {
     eyebrow: "Color & Tone",
-    heading: "True to the day you lived",
+    heading: "True to the Day You Lived",
     body:
       "My editing stays honest to the tones, skin, and atmosphere of your day — warm when it was warm, soft when it was soft. These swatches are pulled straight from my portfolio, a little snapshot of the palette I gravitate toward.",
     showPalette: true,

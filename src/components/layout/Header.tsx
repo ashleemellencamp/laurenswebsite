@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { mainNavLinks } from "@/lib/nav-links";
 import { sectionPaddingX } from "@/lib/section-padding";
+import { mainNavLinkClassName } from "@/lib/typography";
 
 export function Header() {
   return (
@@ -15,10 +16,7 @@ export function Header() {
         <ul className="flex flex-wrap justify-end gap-x-8 gap-y-2">
           {mainNavLinks.map(({ href, label }) => (
             <li key={href}>
-              <Link
-                href={href}
-                className="font-sans text-sm uppercase tracking-[0.05em] text-body transition hover:text-slate"
-              >
+              <Link href={href} className={mainNavLinkClassName}>
                 {label}
               </Link>
             </li>

@@ -43,17 +43,17 @@ export function PortfolioCategoryCard({
           {description}
         </p>
 
-        <div className="flex items-end justify-between gap-3">
-          <span className="font-serif text-[26px] leading-none text-white">
+        <div className="flex items-end justify-between gap-2">
+          <span className="font-serif text-[1.375rem] leading-none text-white">
             {title}
           </span>
           <span
             aria-hidden
-            className="flex size-[37px] shrink-0 translate-y-1 scale-95 items-center justify-center rounded-full bg-blue-light opacity-0 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:group-hover:translate-y-0 sm:group-hover:scale-100 sm:group-hover:opacity-100"
+            className="flex size-[34px] shrink-0 translate-y-0.5 scale-95 items-center justify-center rounded-full bg-blue-light opacity-0 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:group-hover:translate-y-0 sm:group-hover:scale-100 sm:group-hover:opacity-100"
           >
             <svg
-              width="14"
-              height="14"
+              width="13"
+              height="13"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

@@ -30,7 +30,7 @@ export const scrapbookIntroContent: Record<
   },
   thingsThatMoveMe: {
     eyebrow: "My Inspirations",
-    heading: "The things that move me",
+    heading: "The Things That Move Me",
     body:
       "Golden hour drives with the windows down. Old records and film grain. The hum of a reception just before the music starts. People who love big, laugh loudly, and aren't afraid to be themselves in front of the camera.",
     collageAlign: "left",

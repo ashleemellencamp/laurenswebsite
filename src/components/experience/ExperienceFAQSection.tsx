@@ -6,6 +6,7 @@ import { useState } from "react";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { experienceFAQ } from "@/lib/experience-faq";
 import { sectionPadding, sectionPaddingX } from "@/lib/section-padding";
+import { sectionHeadlineLargeClassName } from "@/lib/typography";
 
 function ChevronIcon({ isOpen }: { isOpen: boolean }) {
   return (
@@ -37,8 +38,8 @@ export function ExperienceFAQSection() {
     <section className={`border-t border-slate/10 bg-cream ${sectionPadding}`}>
       <div className={`mx-auto max-w-3xl text-center ${sectionPaddingX}`}>
         <SectionEyebrow className="text-center">Common Questions</SectionEyebrow>
-        <h2 className="mt-3 text-[clamp(2rem,4.5vw,3rem)] leading-tight tracking-[0.02em]">
-          Frequently asked questions.
+        <h2 className={sectionHeadlineLargeClassName}>
+          Frequently Asked Questions
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-body">
           A few things couples often ask before we start planning together.

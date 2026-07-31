@@ -2,6 +2,7 @@ import { ExperiencePhoto } from "@/components/experience/ExperiencePhoto";
 import { SectionEyebrow } from "@/components/ui/SectionEyebrow";
 import { experienceJourneyImage } from "@/lib/experience-images";
 import { sectionPaddingX, sectionPaddingY } from "@/lib/section-padding";
+import { splitSectionHeadlineClassName } from "@/lib/typography";
 
 export function JourneyBeginningSection() {
   return (
@@ -13,8 +14,8 @@ export function JourneyBeginningSection() {
       >
         <div>
           <SectionEyebrow>Working Together</SectionEyebrow>
-          <h2 className="mt-3 text-3xl leading-tight lg:text-4xl">
-            You show up. I&apos;ll handle the rest.
+          <h2 className={splitSectionHeadlineClassName}>
+            You Show Up. I&apos;ll Handle the Rest.
           </h2>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-body">
             From your first email to your final gallery, I&apos;m here to keep

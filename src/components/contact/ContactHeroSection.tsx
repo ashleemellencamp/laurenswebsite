@@ -4,7 +4,7 @@ export function ContactHeroSection() {
   return (
     <InteriorPageHero
       eyebrow="Get in Touch"
-      headline="I'd love to hear what you're planning."
+      headline="I'd Love to Hear What You're Planning."
     />
   );
 }

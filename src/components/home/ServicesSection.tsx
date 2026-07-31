@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
-
 import { useState } from "react";
 
+import { TextLink } from "@/components/ui/TextLink";
 import { portfolioHref } from "@/lib/portfolio-categories";
 import { sectionPaddingX } from "@/lib/section-padding";
 
@@ -101,12 +100,9 @@ export function ServicesSection() {
                   <p className="max-w-lg text-base leading-relaxed text-body lg:flex-1">
                     {service.description}
                   </p>
-                  <Link
-                    href={service.href}
-                    className="shrink-0 self-start font-serif text-sm uppercase tracking-[0.7px] text-slate transition hover:opacity-80 lg:self-center"
-                  >
+                  <TextLink href={service.href} className="shrink-0 self-start lg:self-center">
                     Learn More
-                  </Link>
+                  </TextLink>
                 </div>
 
                 <div className="mt-10 flex gap-4 overflow-x-auto pb-2 lg:mt-12 lg:gap-6">

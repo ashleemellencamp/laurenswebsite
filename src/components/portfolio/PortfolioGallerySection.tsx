@@ -13,6 +13,7 @@ import {
 } from "@/lib/portfolio-categories";
 import type { PortfolioGallery } from "@/lib/portfolio-galleries";
 import { sectionPaddingX, sectionPaddingY } from "@/lib/section-padding";
+import { contentTitleClassName } from "@/lib/typography";
 
 import { PortfolioGalleryCarousel } from "./PortfolioGalleryCarousel";
 
@@ -76,7 +77,7 @@ export function PortfolioGallerySection({
       <div className={sectionPaddingX}>
         <div className="flex items-start justify-between gap-6">
           <h2
-            className="text-3xl leading-tight transition-colors duration-700 ease-out lg:text-4xl"
+            className={`${contentTitleClassName} transition-colors duration-700 ease-out`}
             style={{ color: accentColor }}
           >
             {gallery.title}

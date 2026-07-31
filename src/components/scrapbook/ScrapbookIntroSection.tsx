@@ -5,6 +5,7 @@ import {
   type ScrapbookIntroVariant,
 } from "@/lib/scrapbook-intro-content";
 import { sectionPadding } from "@/lib/section-padding";
+import { sectionBodyClassName, sectionHeadlineClassName } from "@/lib/typography";
 
 type ScrapbookIntroSectionProps = {
   variant: ScrapbookIntroVariant;
@@ -73,12 +74,8 @@ function IntroText({
   return (
     <div className="relative z-0 text-center lg:text-left">
       <SectionEyebrow>{eyebrow}</SectionEyebrow>
-      <h2 className="mt-3 text-[clamp(1.75rem,3.5vw,2.25rem)] leading-snug">
-        {heading}
-      </h2>
-      <p className="mt-6 text-base leading-relaxed tracking-[0.8px] text-body">
-        {body}
-      </p>
+      <h2 className={sectionHeadlineClassName}>{heading}</h2>
+      <p className={sectionBodyClassName}>{body}</p>
     </div>
   );
 }
