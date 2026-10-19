@@ -4,7 +4,12 @@ import { useEffect, useRef, useState } from "react";
 
 import { primaryButtonClassName } from "@/components/ui/PrimaryButton";
 import { useIsTouchDevice } from "@/hooks/useMediaQuery";
-import { plannedInvestmentOptions } from "@/lib/contact-form";
+import {
+  formatContactInquiryMessage,
+  plannedInvestmentOptions,
+  type ContactFormPayload,
+} from "@/lib/contact-form";
+import { siteConfig } from "@/lib/site-config";
 import { formLabelClassName } from "@/lib/typography";
 
 type FormStatus = "idle" | "loading" | "success" | "error";
@@ -63,28 +68,77 @@ export function ContactForm() {
     event.preventDefault();
     setStatus("loading");
 
+    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+
+    if (!accessKey) {
+      setStatus("error");
+      return;
+    }
+
     const form = event.currentTarget;
     const formData = new FormData(form);
 
+    const trim = (value: FormDataEntryValue | null) =>
+      typeof value === "string" ? value.trim() : "";
+
+    const fullName = trim(formData.get("fullName"));
+    const phone = trim(formData.get("phone"));
+    const email = trim(formData.get("email"));
+    const date = trim(formData.get("date"));
+    const location = trim(formData.get("location"));
+    const plannedInvestment = trim(formData.get("plannedInvestment"));
+
+    const isValidInvestment = plannedInvestmentOptions.some(
+      (option) => option.value === plannedInvestment,
+    );
+
+    if (
+      !fullName ||
+      !phone ||
+      !email ||
+      !date ||
+      !location ||
+      !plannedInvestment ||
+      !isValidInvestment
+    ) {
+      setStatus("error");
+      return;
+    }
+
+    const inquiry: ContactFormPayload = {
+      fullName,
+      fianceName: trim(formData.get("fianceName")) || undefined,
+      phone,
+      email,
+      referralSource: trim(formData.get("referralSource")) || undefined,
+      date,
+      location,
+      plannedInvestment,
+      socialHandle: trim(formData.get("socialHandle")) || undefined,
+      weddingDetails: trim(formData.get("weddingDetails")) || undefined,
+    };
+
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
         body: JSON.stringify({
-          fullName: formData.get("fullName"),
-          fianceName: formData.get("fianceName"),
-          phone: formData.get("phone"),
-          email: formData.get("email"),
-          referralSource: formData.get("referralSource"),
-          date: formData.get("date"),
-          location: formData.get("location"),
-          plannedInvestment: formData.get("plannedInvestment"),
-          socialHandle: formData.get("socialHandle"),
-          weddingDetails: formData.get("weddingDetails"),
+          access_key: accessKey,
+          name: fullName,
+          email,
+          phone,
+          message: formatContactInquiryMessage(inquiry),
+          subject: `New photography inquiry from ${fullName}`,
+          from_name: siteConfig.name,
         }),
       });
 
-      if (!response.ok) {
+      const result = (await response.json()) as { success?: boolean };
+
+      if (!response.ok || !result.success) {
         setStatus("error");
         return;
       }
