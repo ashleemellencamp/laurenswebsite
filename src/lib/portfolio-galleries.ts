@@ -232,11 +232,11 @@ export const portfolioGalleries: PortfolioGallery[] = [
   },
   {
     id: "sedona-portraits",
-    title: "Desert Portraits",
-    category: "portraits",
+    title: "A Desert Elopement",
+    category: "elopements",
     accentColor: "#7a4435",
     description:
-      "Intimate portraits against Sedona's red rock — close and unhurried, white linen in the desert light, and moments that blur the line between still and in-motion.",
+      "An intimate elopement against Sedona's red rock — close and unhurried, white linen in the desert light, and vows shared where the landscape feels as bold as the commitment.",
     images: [
       {
         id: 1,
@@ -253,7 +253,7 @@ export const portfolioGalleries: PortfolioGallery[] = [
       {
         id: 3,
         src: "/images/portfolio/sedona-portraits/03.jpg",
-        alt: "Couple sharing a quiet moment during their Sedona portrait session",
+        alt: "Couple sharing a quiet moment during their Sedona elopement",
         aspectClass: portraitFrameClass,
       },
       {
@@ -364,11 +364,11 @@ export const portfolioGalleries: PortfolioGallery[] = [
   },
   {
     id: "flagstaff-engagement",
-    title: "An Engagement in the Aspens",
-    category: "engagements",
+    title: "Portraits in the Aspens",
+    category: "portraits",
     accentColor: "#556b4a",
     description:
-      "Snow in the aspens, a mattress in the woods, and a vintage TV playing your favorite scene — playful, intimate, and entirely their own.",
+      "Snow in the aspens, a mattress in the woods, and a vintage TV playing your favorite scene — a playful portrait session, intimate and entirely their own.",
     images: [
       {
         id: 1,
@@ -391,7 +391,7 @@ export const portfolioGalleries: PortfolioGallery[] = [
       {
         id: 4,
         src: "/images/portfolio/flagstaff-engagement/04.jpg",
-        alt: "Close portrait of an engaged couple smiling with foreheads nearly touching",
+        alt: "Close portrait of a couple smiling with foreheads nearly touching",
         aspectClass: portraitFrameClass,
       },
       {
