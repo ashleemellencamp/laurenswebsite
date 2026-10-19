@@ -8,7 +8,7 @@ export const siteConfig: SiteConfig = {
   email: process.env.CONTACT_EMAIL ?? "laurennicholsphotography@gmail.com",
   location: "Nashville, TN",
   social: {
-    instagram: "https://instagram.com",
+    instagram: "https://www.instagram.com/laurennicholsphotography/",
     pinterest: "https://pinterest.com",
   },
 };
