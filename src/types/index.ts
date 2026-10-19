@@ -21,6 +21,5 @@ export interface SiteConfig {
   location: string;
   social: {
     instagram?: string;
-    pinterest?: string;
   };
 }

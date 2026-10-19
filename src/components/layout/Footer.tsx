@@ -4,6 +4,32 @@ import { footerNavLinks } from "@/lib/nav-links";
 import { sectionPadding } from "@/lib/section-padding";
 import { siteConfig } from "@/lib/site-config";
 
+function InstagramIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+      className="shrink-0"
+    >
+      <rect
+        x="3"
+        y="3"
+        width="18"
+        height="18"
+        rx="5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+
 export function Footer() {
   const year = new Date().getFullYear();
 
@@ -40,6 +66,18 @@ export function Footer() {
             })}
           </ul>
         </nav>
+
+        {siteConfig.social.instagram ? (
+          <a
+            href={siteConfig.social.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center justify-center gap-2.5 font-sans text-sm uppercase tracking-[0.05em] text-body transition hover:text-slate"
+          >
+            <InstagramIcon />
+            @laurennicholsphotography
+          </a>
+        ) : null}
 
         <div className="flex flex-col gap-3 text-sm text-body">
           <p>

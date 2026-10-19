@@ -9,6 +9,5 @@ export const siteConfig: SiteConfig = {
   location: "Nashville, TN",
   social: {
     instagram: "https://www.instagram.com/laurennicholsphotography/",
-    pinterest: "https://pinterest.com",
   },
 };
