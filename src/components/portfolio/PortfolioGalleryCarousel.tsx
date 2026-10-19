@@ -8,6 +8,7 @@ import {
   getPortfolioGalleryScrollHint,
   usePortfolioGalleryScroll,
 } from "@/hooks/usePortfolioGalleryScroll";
+import { useIsTouchDevice } from "@/hooks/useMediaQuery";
 import {
   type PortfolioGallery,
   type PortfolioGalleryImage,
@@ -103,6 +104,44 @@ function GalleryScrollIndicator({
   );
 }
 
+function GalleryNavButton({
+  direction,
+  disabled,
+  onClick,
+}: {
+  direction: "prev" | "next";
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={direction === "prev" ? "Previous photos" : "Next photos"}
+      className="flex size-10 shrink-0 items-center justify-center rounded-full border border-[var(--gallery-accent-border)] text-[var(--gallery-accent)] transition enabled:hover:bg-[var(--gallery-accent-soft)] disabled:cursor-not-allowed disabled:opacity-35 sm:size-11"
+    >
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden
+        className={direction === "prev" ? "rotate-180" : ""}
+      >
+        <path
+          d="M5 12H19M19 12L13 6M19 12L13 18"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
+  );
+}
+
 function GalleryImageFrame({
   image,
   galleryTitle,
@@ -173,26 +212,26 @@ export function PortfolioGalleryCarousel({
   accentColor,
 }: PortfolioGalleryCarouselProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const isTouchDevice = useIsTouchDevice();
   const {
     scrollRef,
-    trackRef,
     galleryUnitRef,
     isGalleryHovered,
     isAtStart,
     isAtEnd,
-    phase,
-    canWheelScroll,
-    isGalleryScrollActive,
+    canScroll,
+    scrollGallery,
     galleryUnitHandlers,
   } = usePortfolioGalleryScroll();
 
   const accent = accentColor ?? "#42586e";
+  const isGalleryActive = isGalleryHovered && canScroll;
   const activeBg = hexToRgba(accent, 0.1);
-  const edgeFadeBase = getGalleryEdgeFadeBase(accent, isGalleryScrollActive);
+  const edgeFadeBase = getGalleryEdgeFadeBase(accent, isGalleryActive);
   const scrollHint = getPortfolioGalleryScrollHint({
-    canWheelScroll,
     isHovered: isGalleryHovered,
-    phase,
+    canScroll,
+    isTouchDevice,
   });
 
   const lightboxImages = gallery.images.flatMap((image) =>
@@ -220,7 +259,7 @@ export function PortfolioGalleryCarousel({
           className="relative"
           tabIndex={0}
           role="region"
-          aria-label={`${gallery.title} photo gallery. Hover and scroll to explore.`}
+          aria-label={`${gallery.title} photo gallery. Hover and use arrows to explore.`}
           {...galleryUnitHandlers}
         >
           <div
@@ -228,8 +267,8 @@ export function PortfolioGalleryCarousel({
             className="pointer-events-none absolute -inset-x-5 -inset-y-4 rounded-[2rem] transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.33,1,0.38,1)] lg:-inset-x-7 lg:-inset-y-5"
             style={{
               backgroundColor: activeBg,
-              opacity: isGalleryScrollActive ? 1 : 0,
-              transform: isGalleryScrollActive ? "scale(1)" : "scale(0.985)",
+              opacity: isGalleryActive ? 1 : 0,
+              transform: isGalleryActive ? "scale(1)" : "scale(0.985)",
             }}
           />
 
@@ -240,6 +279,7 @@ export function PortfolioGalleryCarousel({
                 className="pointer-events-none absolute top-0 bottom-3 left-0 z-10 w-7 transition-[opacity,background] duration-500 ease-[cubic-bezier(0.33,1,0.38,1)] sm:w-8 lg:bottom-4 lg:w-10"
                 style={{
                   background: getGalleryEdgeFadeGradient("left", edgeFadeBase),
+                  opacity: isGalleryHovered ? 1 : 0.6,
                 }}
               />
             )}
@@ -249,20 +289,16 @@ export function PortfolioGalleryCarousel({
                 className="pointer-events-none absolute top-0 right-0 bottom-3 z-10 w-7 transition-[opacity,background] duration-500 ease-[cubic-bezier(0.33,1,0.38,1)] sm:w-8 lg:bottom-4 lg:w-10"
                 style={{
                   background: getGalleryEdgeFadeGradient("right", edgeFadeBase),
+                  opacity: isGalleryHovered ? 1 : 0.6,
                 }}
               />
             )}
 
             <div
               ref={scrollRef}
-              className={`scrollbar-hide overflow-x-auto overflow-y-hidden overscroll-x-contain pb-3 outline-none lg:pb-4 ${
-                isGalleryScrollActive ? "cursor-ew-resize" : ""
-              }`}
+              className="scrollbar-hide overflow-x-auto overflow-y-hidden overscroll-x-contain pb-3 outline-none lg:pb-4"
             >
-              <div
-                ref={trackRef}
-                className="relative flex w-max flex-nowrap gap-4 lg:gap-6"
-              >
+              <div className="relative flex w-max flex-nowrap gap-4 lg:gap-6">
                 {gallery.images.map((image, index) => (
                   <GalleryImageFrame
                     key={image.id}
@@ -277,23 +313,39 @@ export function PortfolioGalleryCarousel({
 
           <div className="relative z-[1] mt-3 lg:mt-4">
             <div
-              className={`flex items-center gap-4 ${
-                isGalleryScrollActive ? "justify-between" : "justify-end"
+              className={`flex items-center gap-3 sm:gap-4 ${
+                canScroll ? "justify-between" : "justify-end"
               }`}
             >
-              {isGalleryScrollActive ? (
-                <div className="min-w-0 flex-1">
-                  <GalleryScrollIndicator
-                    scrollRef={scrollRef}
-                    accentColor={accent}
+              {canScroll ? (
+                <div
+                  className={`flex min-w-0 flex-1 items-center gap-3 transition-opacity duration-300 sm:gap-4 ${
+                    isGalleryHovered ? "opacity-100" : "opacity-0 max-sm:opacity-100"
+                  }`}
+                >
+                  <GalleryNavButton
+                    direction="prev"
+                    disabled={isAtStart}
+                    onClick={() => scrollGallery("prev")}
+                  />
+                  <div className="min-w-0 flex-1">
+                    <GalleryScrollIndicator
+                      scrollRef={scrollRef}
+                      accentColor={accent}
+                    />
+                  </div>
+                  <GalleryNavButton
+                    direction="next"
+                    disabled={isAtEnd}
+                    onClick={() => scrollGallery("next")}
                   />
                 </div>
               ) : null}
               <p
                 className={`shrink-0 text-right font-sans text-[0.62rem] uppercase tracking-[0.12em] transition-[color,opacity] duration-500 ${
-                  isGalleryScrollActive ? "font-medium" : "text-body/60"
+                  isGalleryActive ? "font-medium" : "text-body/60"
                 }`}
-                style={isGalleryScrollActive ? { color: accent } : undefined}
+                style={isGalleryActive ? { color: accent } : undefined}
               >
                 {scrollHint}
               </p>
