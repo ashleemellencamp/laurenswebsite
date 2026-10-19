@@ -8,7 +8,12 @@ import {
   getPortfolioGalleryScrollHint,
   usePortfolioGalleryScroll,
 } from "@/hooks/usePortfolioGalleryScroll";
-import type { PortfolioGallery, PortfolioGalleryImage } from "@/lib/portfolio-galleries";
+import {
+  getGalleryImageSizes,
+  type PortfolioGallery,
+  type PortfolioGalleryImage,
+  portraitFrameClass,
+} from "@/lib/portfolio-galleries";
 import { sectionPaddingX } from "@/lib/section-padding";
 
 import { PortfolioLightbox } from "./PortfolioLightbox";
@@ -18,8 +23,8 @@ type PortfolioGalleryCarouselProps = {
   accentColor?: string;
 };
 
-const portraitFrameClass = "aspect-[2/3] w-[min(391px,70vw)]";
 const galleryPageBg = "#fbf6f2";
+const galleryImageQuality = 90;
 
 function getGalleryEdgeFadeBase(accent: string, isActive: boolean) {
   return isActive
@@ -154,7 +159,8 @@ function GalleryImageFrame({
             alt={image.alt ?? ""}
             fill
             draggable={false}
-            sizes="(max-width: 640px) 70vw, 391px"
+            quality={galleryImageQuality}
+            sizes={getGalleryImageSizes(frameClass)}
             className="pointer-events-none select-none object-cover"
           />
         </button>
