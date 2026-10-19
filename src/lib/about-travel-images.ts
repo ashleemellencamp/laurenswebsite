@@ -22,6 +22,6 @@ export const aboutTravelImages = {
   redRocks: {
     src: "/images/about/travel/lauren-red-rocks.jpg",
     alt: "Lauren Nichols sitting on red rock formations in Colorado",
-    caption: "Hawaii, 2025",
+    caption: "Kauai, 2025",
   },
 } as const;
