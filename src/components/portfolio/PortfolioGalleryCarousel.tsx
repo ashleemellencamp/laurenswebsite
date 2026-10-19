@@ -9,7 +9,6 @@ import {
   usePortfolioGalleryScroll,
 } from "@/hooks/usePortfolioGalleryScroll";
 import {
-  getGalleryImageSizes,
   type PortfolioGallery,
   type PortfolioGalleryImage,
   portraitFrameClass,
@@ -24,7 +23,6 @@ type PortfolioGalleryCarouselProps = {
 };
 
 const galleryPageBg = "#fbf6f2";
-const galleryImageQuality = 90;
 
 function getGalleryEdgeFadeBase(accent: string, isActive: boolean) {
   return isActive
@@ -158,9 +156,8 @@ function GalleryImageFrame({
             src={image.src}
             alt={image.alt ?? ""}
             fill
+            unoptimized
             draggable={false}
-            quality={galleryImageQuality}
-            sizes={getGalleryImageSizes(frameClass)}
             className="pointer-events-none select-none object-cover"
           />
         </button>

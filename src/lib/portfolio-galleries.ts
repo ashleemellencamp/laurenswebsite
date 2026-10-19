@@ -21,14 +21,6 @@ export type PortfolioGallery = {
 export const portraitFrameClass = "aspect-[2/3] w-[min(391px,70vw)]";
 export const landscapeFrameClass = "aspect-[3/2] w-[min(492px,85vw)]";
 
-/** Match `sizes` to rendered frame width so Next.js serves enough pixels (incl. retina). */
-export function getGalleryImageSizes(aspectClass?: string) {
-  const isLandscape = aspectClass?.includes("aspect-[3/2]");
-  return isLandscape
-    ? "(max-width: 640px) 85vw, 492px"
-    : "(max-width: 640px) 70vw, 391px";
-}
-
 export const portfolioGalleries: PortfolioGallery[] = [
   {
     id: "nunelly-lake-session",

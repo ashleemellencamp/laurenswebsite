@@ -199,8 +199,7 @@ export function PortfolioLightbox({
             src={currentImage.src}
             alt={currentImage.alt}
             fill
-            sizes="(max-width: 768px) 100vw, 768px"
-            quality={90}
+            unoptimized
             className="object-contain"
             priority
             draggable={false}
